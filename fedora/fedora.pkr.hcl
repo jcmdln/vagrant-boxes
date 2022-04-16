@@ -71,7 +71,7 @@ source "qemu" "fedora" {
   headless = true
   http_directory = "./fedora"
   iso_checksum = "file:${local.mirror_path}/${local.iso_checksum}"
-  iso_url = "${local.mirror_path}/${local.iso_name}.iso"
+  iso_url = "${local.mirror_path}/${local.iso_name}"
   memory = 2048
   net_device = "virtio-net"
   output_directory = "${local.output_path}"
