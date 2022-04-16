@@ -1,0 +1,56 @@
+# SPDX-License-Identifier: ISC
+---
+name: build
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/build.yml"
+      - "**/*.pkr.hcl"
+      - "fedora/kickstart.cfg"
+      - "openbsd/install.conf"
+      - "tools/sample.manifest.json"
+      - "tools/vagrant-manifest.sh"
+  push:
+    paths:
+      - ".github/**"
+      - "install.conf"
+      - "openbsd.pkr.hcl"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: fedora, version: "34", arch: amd64 }
+          - { name: fedora, version: "35", arch: amd64 }
+          - { name: openbsd, version: "6.9", arch: amd64 }
+          - { name: openbsd, version: "7.0", arch: amd64 }
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: prepare
+        run: |
+          sudo apt update
+          sudo apt install -y ansible ovmf qemu-kvm
+
+      - name: packer init
+        run: packer init ${{ matrix.name }}/${{ matrix.name }}.pkr.hcl
+
+      - name: packer validate
+        run: packer validate -syntax-only ${{ matrix.name }}/${{ matrix.name }}.pkr.hcl
+
+      - name: packer build
+        run: >-
+          packer build
+          -color=false
+          -on-error=abort
+          -var="os_arch=${{ matrix.arch }}"
+          -var="os_version=${{ matrix.version }}"
+          -var="qemu_accel=tcg"
+          -var="qemu_cpu=qemu64"
+          -var="qemu_ssh_timeout=1h"
+          ${{ matrix.name }}/${{ matrix.name }}.pkr.hcl

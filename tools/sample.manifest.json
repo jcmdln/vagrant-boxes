@@ -1,0 +1,15 @@
+{
+  "name": "jcmdln/openbsd",
+  "description": "",
+  "versions": [
+    {
+      "version": "7.0",
+      "providers": [
+        {
+          "name": "libvirt",
+          "url": "./build/7.0/x86_64/openbsd.box"
+        }
+      ]
+    }
+  ]
+}
