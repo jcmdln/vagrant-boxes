@@ -17,5 +17,5 @@ mkdir -p $BOX_PATH
 sed "
     /name\"/     s/\/openbsd/\/$BOX_NAME/;
     /version\"/  s/[0-9]\.[0-9]/$BOX_VERSION/;
-    /url\"/      s/build.*\"/build\/$BOX_NAME\/$BOX_VERSION\/$BOX_ARCH\/openbsd.box\"/
+    /url\"/      s/build.*\"/build\/$BOX_NAME\/$BOX_VERSION\/$BOX_ARCH\/$BOX_NAME.box\"/
 " ./tools/sample.manifest.json > $MANIFEST
