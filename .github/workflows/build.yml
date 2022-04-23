@@ -43,14 +43,14 @@ jobs:
       - name: packer validate
         run: packer validate -syntax-only ${{ matrix.name }}/${{ matrix.name }}.pkr.hcl
 
-      - name: packer build
-        run: >-
-          packer build
-          -color=false
-          -on-error=abort
-          -var="os_arch=${{ matrix.arch }}"
-          -var="os_version=${{ matrix.version }}"
-          -var="qemu_accel=tcg"
-          -var="qemu_cpu=qemu64"
-          -var="qemu_ssh_timeout=1h"
-          ${{ matrix.name }}/${{ matrix.name }}.pkr.hcl
+      # - name: packer build
+      #   run: >-
+      #     packer build
+      #     -color=false
+      #     -on-error=abort
+      #     -var="os_arch=${{ matrix.arch }}"
+      #     -var="os_version=${{ matrix.version }}"
+      #     -var="qemu_accel=tcg"
+      #     -var="qemu_cpu=qemu64"
+      #     -var="qemu_ssh_timeout=1h"
+      #     ${{ matrix.name }}/${{ matrix.name }}.pkr.hcl
