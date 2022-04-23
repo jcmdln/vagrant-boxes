@@ -27,8 +27,8 @@ jobs:
         include:
           - { name: fedora, version: "34", arch: x86_64 }
           - { name: fedora, version: "35", arch: x86_64 }
-          - { name: openbsd, version: "6.9", arch: amd64 }
           - { name: openbsd, version: "7.0", arch: amd64 }
+          - { name: openbsd, version: "7.1", arch: amd64 }
     steps:
       - uses: actions/checkout@v2
 

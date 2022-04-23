@@ -12,7 +12,7 @@ variable "os_mirror" {
 
 variable "os_version" {
   type = string
-  default = "7.0"
+  default = "7.1"
 }
 
 variable "qemu_accel" {
