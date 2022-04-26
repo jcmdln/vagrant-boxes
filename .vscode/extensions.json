@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "4ops.packer",
+    "wayou.vscode-todo-highlight",
+    "esbenp.prettier-vscode"
+  ]
+}
