@@ -20,14 +20,29 @@ variable "qemu_accel" {
   default = "kvm"
 }
 
+variable "qemu_bios" {
+  type = string
+  default = "/usr/share/seabios/bios.bin"
+}
+
 variable "qemu_cpu" {
   type = string
-  default = "host"
+  default = "qemu64"
+}
+
+variable "qemu_machine" {
+  type = string
+  default = "q35"
 }
 
 variable "qemu_ssh_timeout" {
   type = string
   default = "15m"
+}
+
+variable "vagrant_pubkey" {
+  type = string
+  default = "https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub"
 }
 
 locals {
@@ -57,12 +72,12 @@ source "qemu" "openbsd" {
   iso_checksum = "file:${local.mirror_path}/SHA256"
   iso_url = "${local.mirror_path}/${local.iso_name}"
   memory = 2048
-  net_device = "virtio-net"
   output_directory = "${local.output_path}"
   qemuargs = [
     ["-accel", "${var.qemu_accel}"],
+    ["-bios", "${var.qemu_bios}"],
     ["-cpu", "${var.qemu_cpu}"],
-    ["-machine", "q35"],
+    ["-machine", "${var.qemu_machine}"],
   ]
   shutdown_command = "shutdown -h -p now"
   ssh_agent_auth = false
@@ -75,11 +90,20 @@ source "qemu" "openbsd" {
 build {
   sources = ["sources.qemu.openbsd"]
 
+  # Add vagrant insecure pubkey
+  provisioner "shell" {
+    environment_vars = [
+      "VAGRANT_PUBKEY=${var.vagrant_pubkey}"
+    ]
+    script = "./tools/vagrant-pubkey.sh"
+  }
+
+  # Allow user vagrant to run commands without password
   provisioner "shell" {
     inline = [
       "cp /etc/examples/doas.conf /etc/doas.conf",
       "echo 'permit nopass vagrant' >> /etc/doas.conf",
-      "doas -C /etc/doas.conf",
+      "doas -C /etc/doas.conf"
     ]
   }
 

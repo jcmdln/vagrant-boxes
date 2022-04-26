@@ -27,13 +27,12 @@ variable "qemu_accel" {
 
 variable "qemu_bios" {
   type = string
-  # Use '/usr/share/ovmf/OVMF.fd' on Ubuntu 20.04
-  default = "/usr/share/OVMF/OVMF_CODE.fd"
+  default = "/usr/share/edk2/ovmf/OVMF_CODE.fd"
 }
 
 variable "qemu_cpu" {
   type = string
-  default = "host"
+  default = "qemu64"
 }
 
 variable "qemu_machine" {
@@ -44,6 +43,11 @@ variable "qemu_machine" {
 variable "qemu_ssh_timeout" {
   type = string
   default = "15m"
+}
+
+variable "vagrant_pubkey" {
+  type = string
+  default = "https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub"
 }
 
 locals {
@@ -73,7 +77,6 @@ source "qemu" "fedora" {
   iso_checksum = "file:${local.mirror_path}/${local.iso_checksum}"
   iso_url = "${local.mirror_path}/${local.iso_name}"
   memory = 2048
-  net_device = "virtio-net"
   output_directory = "${local.output_path}"
   qemuargs = [
     ["-accel", "${var.qemu_accel}"],
@@ -92,6 +95,14 @@ source "qemu" "fedora" {
 build {
   sources = ["sources.qemu.fedora"]
 
+  # Add vagrant insecure pubkey
+  provisioner "shell" {
+    environment_vars = [
+      "VAGRANT_PUBKEY=${var.vagrant_pubkey}"
+    ]
+    script = "./tools/vagrant-pubkey.sh"
+  }
+
   # Package the image as a Vagrant box
   post-processor "vagrant" {
     compression_level = 9
@@ -101,7 +112,7 @@ build {
   }
 
   # Generate Vagrant manifest.json
-  provisioner "shell-local" {
+  post-processor "shell-local" {
     environment_vars = [
       "BOX_ARCH=${var.os_arch}",
       "BOX_NAME=fedora",
