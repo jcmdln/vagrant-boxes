@@ -51,6 +51,5 @@ jobs:
       #     -var="os_arch=${{ matrix.arch }}"
       #     -var="os_version=${{ matrix.version }}"
       #     -var="qemu_accel=tcg"
-      #     -var="qemu_cpu=qemu64"
       #     -var="qemu_ssh_timeout=1h"
       #     ${{ matrix.name }}/${{ matrix.name }}.pkr.hcl
