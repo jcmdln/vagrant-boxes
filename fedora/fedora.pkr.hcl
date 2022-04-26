@@ -27,7 +27,7 @@ variable "qemu_accel" {
 
 variable "qemu_bios" {
   type = string
-  default = "/usr/share/edk2/ovmf/OVMF_CODE.fd"
+  default = "/usr/share/OVMF/OVMF_CODE.fd"
 }
 
 variable "qemu_cpu" {
