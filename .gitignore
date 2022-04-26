@@ -7,8 +7,8 @@
 !.editorconfig
 !.gitignore
 !LICENSE
-!README.md
 !meson.build
+!README.md
 !Vagrantfile
 
 # Include specific files from specific directories
@@ -17,6 +17,7 @@
 !.github/workflows/build.yml
 
 !.vscode/
+!.vscode/extensions.json
 !.vscode/settings.json
 
 !alpine/
@@ -31,5 +32,5 @@
 !openbsd/openbsd.pkr.hcl
 
 !tools/
-!tools/sample.manifest.json
 !tools/vagrant-manifest.sh
+!tools/vagrant-pubkey.sh
