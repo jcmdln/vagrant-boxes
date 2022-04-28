@@ -27,7 +27,6 @@ Vagrant.configure("2") do |config|
     c.ssh.shell = "/bin/ksh -l"
     c.ssh.sudo_command = "doas %c"
     c.vm.box = "jcmdln/openbsd"
-    c.vm.box_version = "7.1"
 
     c.vm.provider "libvirt" do |v|
       v.loader = "/usr/share/seabios/bios.bin"
