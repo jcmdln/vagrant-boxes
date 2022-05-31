@@ -15,21 +15,19 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider "libvirt" do |v|
     v.cpus = 2
-    v.loader = "/usr/share/OVMF/OVMF_CODE.fd"
     v.memory = 2048
   end
 
   config.vm.define "fedora" do |c|
     c.vm.box = "jcmdln/fedora"
+    c.vm.provider "libvirt" do |v|
+      v.loader = "/usr/share/OVMF/OVMF_CODE.fd"
+    end
   end
 
   config.vm.define "openbsd" do |c|
     c.ssh.shell = "/bin/ksh -l"
     c.ssh.sudo_command = "doas %c"
     c.vm.box = "jcmdln/openbsd"
-
-    c.vm.provider "libvirt" do |v|
-      v.loader = "/usr/share/seabios/bios.bin"
-    end
   end
 end
