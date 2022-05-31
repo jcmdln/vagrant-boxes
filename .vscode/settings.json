@@ -1,6 +1,10 @@
 {
-  "editor.wordWrapColumn": 99,
+  "editor.wordWrap": "on",
+  "files.associations": {
+    "*.hcl": "hcl",
+    "Vagrantfile.template": "ruby"
+  },
   "yaml.schemas": {
     "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml"
-  }
+  },
 }
