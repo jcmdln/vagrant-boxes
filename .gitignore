@@ -1,36 +1,4 @@
 # SPDX-License-Identifier: ISC
 
-# Ignore everything
-*
-
-# Include these specific files
-!.editorconfig
-!.gitignore
-!LICENSE
-!meson.build
-!README.md
-!Vagrantfile
-
-# Include specific files from specific directories
-!.github/
-!.github/workflows/
-!.github/workflows/build.yml
-
-!.vscode/
-!.vscode/extensions.json
-!.vscode/settings.json
-
-!alpine/
-!alpine/alpine.pkr.hcl
-
-!fedora/
-!fedora/kickstart.cfg
-!fedora/fedora.pkr.hcl
-
-!openbsd/
-!openbsd/install.conf
-!openbsd/openbsd.pkr.hcl
-
-!tools/
-!tools/vagrant-manifest.sh
-!tools/vagrant-pubkey.sh
+.vagrant
+build
