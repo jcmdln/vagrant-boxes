@@ -113,6 +113,7 @@ build {
     keep_input_artifact = true
     output = "${local.output_path}/openbsd.box"
     provider_override = "libvirt"
+    vagrantfile_template = "./openbsd/Vagrantfile.template"
   }
 
   # Generate Vagrant manifest.json
