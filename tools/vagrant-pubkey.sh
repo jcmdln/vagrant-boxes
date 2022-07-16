@@ -1,7 +1,7 @@
 #!/bin/sh
 # SPDX-License-Identifier: ISC
 
-set -eux -o pipefail
+set -eux
 
 VAGRANT_PUBKEY="${VAGRANT_PUBKEY:-https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub}"
 

@@ -1,7 +1,7 @@
 #!/bin/sh
 # SPDX-License-Identifier: ISC
 
-set -eux -o pipefail
+set -eux
 
 [ -n $BOX_ARCH ]    || exit 1
 [ -n $BOX_NAME ]    || exit 1
