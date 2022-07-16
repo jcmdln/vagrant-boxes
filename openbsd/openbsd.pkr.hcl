@@ -79,7 +79,7 @@ source "qemu" "openbsd" {
   ssh_password = "vagrant"
   ssh_timeout = "${var.qemu_ssh_timeout}"
   ssh_username = "root"
-  vm_name = "openbsd.qcow2"
+  vm_name = "openbsd-${var.os_version}-${var.os_arch}.qcow2"
 }
 
 build {
@@ -101,7 +101,7 @@ build {
   post-processor "vagrant" {
     compression_level = 9
     keep_input_artifact = true
-    output = "${local.output_path}/openbsd.box"
+    output = "${local.output_path}/openbsd-${var.os_version}-${var.os_arch}.box"
     provider_override = "libvirt"
     vagrantfile_template = "./openbsd/Vagrantfile.template"
   }
