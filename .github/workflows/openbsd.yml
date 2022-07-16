@@ -54,9 +54,7 @@ jobs:
           ${{ matrix.name }}/${{ matrix.name }}.pkr.hcl
 
       - name: vagrant cloud auth
-        run: |
-          vagrant --no-tty cloud auth whoami
-          vagrant --no-tty cloud auth login -t ${{ secrets.VAGRANT_TOKEN }} -u ${{ secrets.VAGRANT_USERNAME }}
+        run: vagrant --no-tty cloud auth login -t ${{ secrets.VAGRANT_TOKEN }} -u ${{ secrets.VAGRANT_USERNAME }}
 
       - name: vagrant cloud publish
         env:
