@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: ISC
 ---
-name: build
+name: openbsd
 
 on:
   pull_request:

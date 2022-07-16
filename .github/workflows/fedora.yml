@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: ISC
 ---
-name: build
+name: fedora
 
 on:
   pull_request:
