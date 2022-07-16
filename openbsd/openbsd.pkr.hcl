@@ -91,10 +91,11 @@ build {
 
   provisioner "shell" {
     inline = [
+      "set -eux",
       "cp /etc/examples/doas.conf /etc/doas.conf",
-      "echo 'permit nopass vagrant' >> /etc/doas.conf",
+      "echo 'permit nopass vagrant as root' >> /etc/doas.conf",
       "doas -C /etc/doas.conf",
-      "while [ -n \"$(doas syspatch -c)\" ]; do doas syspatch; done"
+      "while [ -n \"$(syspatch -c)\" ]; do syspatch||true; done"
     ]
   }
 
