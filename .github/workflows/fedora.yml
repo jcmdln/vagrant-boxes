@@ -63,7 +63,7 @@ jobs:
         env:
           BOX_DATETIME: $(date "+%Y%m%dT%H%M%S")
           BOX_FILENAME: ${{ matrix.name }}-${{ matrix.version }}-${{ matrix.arch }}.box
-          BOX_PATH: ${{ matrix.name }}/${{ matrix.version }}/${{ matrix.arch }}
+          BOX_PATH: build/${{ matrix.name }}/${{ matrix.version }}/${{ matrix.arch }}
         run: >-
           vagrant cloud publish --force --release
           --checksum "$(cat $BOX_PATH/manifest.json | jq .versions[0].providers[0].checksum)"
