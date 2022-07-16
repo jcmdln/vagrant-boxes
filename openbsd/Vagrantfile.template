@@ -4,4 +4,8 @@ Vagrant.configure("2") do |config|
   config.ssh.shell = "/bin/ksh -l"
   config.ssh.sudo_command = "doas %c"
   config.vm.box = "jcmdln/openbsd"
+
+  # FIXME: These options require software not included in OpenBSD base.
+  config.nfs.verify_installed = false
+  config.vm.synced_folder '.', '/vagrant', disabled: true
 end

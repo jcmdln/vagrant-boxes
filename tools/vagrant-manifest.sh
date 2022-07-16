@@ -9,6 +9,10 @@ set -eux -o pipefail
 
 BOX_PATH="build/$BOX_NAME/$BOX_VERSION/$BOX_ARCH"
 
+[ -f "$BOX_PATH/$BOX_NAME-$BOX_VERSION-$BOX_ARCH.box" ] || exit 1
+
+SHA256SUM="$(sha256sum $BOX_PATH/$BOX_NAME-$BOX_VERSION-$BOX_ARCH.box | awk '{print $1}')"
+
 mkdir -p $BOX_PATH
 
 echo "{
@@ -20,7 +24,9 @@ echo "{
       \"providers\": [
         {
           \"name\": \"libvirt\",
-          \"url\": \"$BOX_PATH/$BOX_NAME.box\"
+          \"url\": \"$BOX_PATH/$BOX_NAME-$BOX_VERSION-$BOX_ARCH.box\",
+          \"checksum-type\": \"sha256\",
+          \"checksum\": \"$SHA256SUM\"
         }
       ]
     }

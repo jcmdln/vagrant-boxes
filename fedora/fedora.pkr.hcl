@@ -12,12 +12,12 @@ variable "os_mirror" {
 
 variable "os_version" {
   type = number
-  default = 35
+  default = 36
 }
 
 variable "os_version_minor" {
   type = number
-  default = 1.2
+  default = 1.5
 }
 
 variable "qemu_accel" {
@@ -43,11 +43,6 @@ variable "qemu_machine" {
 variable "qemu_ssh_timeout" {
   type = string
   default = "15m"
-}
-
-variable "vagrant_pubkey" {
-  type = string
-  default = "https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub"
 }
 
 locals {
@@ -89,29 +84,30 @@ source "qemu" "fedora" {
   ssh_password = "vagrant"
   ssh_timeout = "${var.qemu_ssh_timeout}"
   ssh_username = "vagrant"
-  vm_name = "fedora.qcow2"
+  vm_name = "fedora-${var.os_version}-${var.os_arch}.qcow2"
 }
 
 build {
   sources = ["sources.qemu.fedora"]
 
-  # Add vagrant insecure pubkey
   provisioner "shell" {
-    environment_vars = [
-      "VAGRANT_PUBKEY=${var.vagrant_pubkey}"
-    ]
     script = "./tools/vagrant-pubkey.sh"
   }
 
-  # Package the image as a Vagrant box
+  provisioner "shell" {
+    inline = [
+      "sudo dnf --refresh -y upgrade --allowerasing --best"
+    ]
+  }
+
   post-processor "vagrant" {
     compression_level = 9
     keep_input_artifact = true
-    output = "${local.output_path}/fedora.box"
+    output = "${local.output_path}/fedora-${var.os_version}-${var.os_arch}.box"
     provider_override = "libvirt"
+    vagrantfile_template = "./fedora/Vagrantfile.template"
   }
 
-  # Generate Vagrant manifest.json
   post-processor "shell-local" {
     environment_vars = [
       "BOX_ARCH=${var.os_arch}",

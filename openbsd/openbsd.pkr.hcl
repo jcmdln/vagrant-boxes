@@ -40,11 +40,6 @@ variable "qemu_ssh_timeout" {
   default = "15m"
 }
 
-variable "vagrant_pubkey" {
-  type = string
-  default = "https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub"
-}
-
 locals {
   version_flat = replace("${var.os_version}", ".", "")
   iso_name = "cd${local.version_flat}.iso"
@@ -90,24 +85,19 @@ source "qemu" "openbsd" {
 build {
   sources = ["sources.qemu.openbsd"]
 
-  # Add vagrant insecure pubkey
   provisioner "shell" {
-    environment_vars = [
-      "VAGRANT_PUBKEY=${var.vagrant_pubkey}"
-    ]
     script = "./tools/vagrant-pubkey.sh"
   }
 
-  # Allow user vagrant to run commands without password
   provisioner "shell" {
     inline = [
       "cp /etc/examples/doas.conf /etc/doas.conf",
       "echo 'permit nopass vagrant' >> /etc/doas.conf",
-      "doas -C /etc/doas.conf"
+      "doas -C /etc/doas.conf",
+      "while [ -n \"$(doas syspatch -c)\" ]; do doas syspatch; done"
     ]
   }
 
-  # Package the image as a Vagrant box
   post-processor "vagrant" {
     compression_level = 9
     keep_input_artifact = true
@@ -116,7 +106,6 @@ build {
     vagrantfile_template = "./openbsd/Vagrantfile.template"
   }
 
-  # Generate Vagrant manifest.json
   post-processor "shell-local" {
     environment_vars = [
       "BOX_ARCH=${var.os_arch}",

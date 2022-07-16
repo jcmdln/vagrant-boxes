@@ -4,21 +4,21 @@ root = true
 
 [*]
 charset = "utf-8"
-indent_size  = 4
+indent_size = 4
 indent_style = "space"
 insert_final_newline = true
-tab_width    = 4
+tab_width = 4
 trim_trailing_whitespace = true
 
 [*.{hcl,json{,c},y{,a}ml}]
-indent_size  = 2
-tab_width    = 2
+indent_size = 2
+tab_width = 2
 
 [openbsd/*.conf]
-indent_size  = 8
+indent_size = 8
 indent_style = "tab"
-tab_width    = 8
+tab_width = 8
 
-[Vagrantfile]
-indent_size  = 2
-tab_width    = 2
+[Vagrantfile{,.template}]
+indent_size = 2
+tab_width = 2
