@@ -2,7 +2,24 @@
 ---
 name: build
 
-on: [workflow_dispatch]
+on:
+  pull_request:
+    paths:
+      - .github/workflows/openbsd.yml
+      - openbsd/install.conf
+      - openbsd/openbsd.pkr.hcl
+      - openbsd/Vagrantfile.template
+      - tools/vagrant-manifest.sh
+      - tools/vagrant-pubkey.sh
+  push:
+    paths:
+      - .github/workflows/openbsd.yml
+      - openbsd/install.conf
+      - openbsd/openbsd.pkr.hcl
+      - openbsd/Vagrantfile.template
+      - tools/vagrant-manifest.sh
+      - tools/vagrant-pubkey.sh
+  workflow_dispatch:
 
 jobs:
   build:
@@ -11,8 +28,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { name: fedora, version: "35", arch: x86_64 }
-          - { name: fedora, version: "36", arch: x86_64 }
           - { name: openbsd, version: "7.0", arch: amd64 }
           - { name: openbsd, version: "7.1", arch: amd64 }
     steps:
@@ -47,7 +62,7 @@ jobs:
           BOX_FILENAME: ${{ matrix.name }}-${{ matrix.version }}-${{ matrix.arch }}.box
           BOX_PATH: ${{ matrix.name }}/${{ matrix.version }}/${{ matrix.arch }}
         run: >-
-          vagrant cloud publish
+          vagrant cloud publish --force --release
           --checksum "$(cat $BOX_PATH/manifest.json | jq .versions[0].providers[0].checksum)"
           --checksum-type sha256
           jcmdln/${{ matrix.name }} ${{ matrix.version }}.$BOX_DATETIME libvirt
