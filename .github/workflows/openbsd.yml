@@ -62,7 +62,7 @@ jobs:
           BOX_FILENAME: ${{ matrix.name }}-${{ matrix.version }}-${{ matrix.arch }}.box
           BOX_PATH: build/${{ matrix.name }}/${{ matrix.version }}/${{ matrix.arch }}
         run: >-
-          vagrant --no-tty cloud publish --force --release
+          vagrant cloud publish --force --release
           --checksum "$(cat $BOX_PATH/manifest.json | jq .versions[0].providers[0].checksum)"
           --checksum-type sha256
           jcmdln/${{ matrix.name }} ${{ matrix.version }}.$BOX_DATETIME libvirt
