@@ -55,8 +55,8 @@ jobs:
 
       - name: vagrant cloud auth
         run: |
-          vagrant cloud auth whoami
-          vagrant cloud auth login -t ${{ secrets.VAGRANT_TOKEN }} -u ${{ secrets.VAGRANT_USERNAME }}
+          vagrant --no-tty cloud auth whoami
+          vagrant --no-tty cloud auth login -t ${{ secrets.VAGRANT_TOKEN }} -u ${{ secrets.VAGRANT_USERNAME }}
 
       - name: vagrant cloud publish
         env:
@@ -64,11 +64,11 @@ jobs:
           BOX_FILENAME: ${{ matrix.name }}-${{ matrix.version }}-${{ matrix.arch }}.box
           BOX_PATH: build/${{ matrix.name }}/${{ matrix.version }}/${{ matrix.arch }}
         run: >-
-          vagrant cloud publish --force --release
+          vagrant --no-tty cloud publish --force --release
           --checksum "$(cat $BOX_PATH/manifest.json | jq .versions[0].providers[0].checksum)"
           --checksum-type sha256
           jcmdln/${{ matrix.name }} ${{ matrix.version }}.$BOX_DATETIME libvirt
           $BOX_PATH/$BOX_FILENAME.box
 
       - name: vagrant cloud auth logout
-        run: vagrant cloud auth logout
+        run: vagrant --no-tty cloud auth logout
