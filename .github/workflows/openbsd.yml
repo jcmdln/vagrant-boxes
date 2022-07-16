@@ -36,7 +36,7 @@ jobs:
       - name: prepare
         run: |
           sudo apt update
-          sudo apt install -y ansible jq ovmf qemu-kvm
+          sudo apt install -y jq ovmf qemu-kvm vagrant
 
       - name: packer init
         run: packer init ${{ matrix.name }}/${{ matrix.name }}.pkr.hcl
