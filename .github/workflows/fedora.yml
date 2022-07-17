@@ -55,19 +55,17 @@ jobs:
           ${{ matrix.name }}/${{ matrix.name }}.pkr.hcl
 
       - name: vagrant cloud auth
-        run: |
-          vagrant --no-tty cloud auth login -t ${{ secrets.VAGRANT_TOKEN }} -u ${{ secrets.VAGRANT_USERNAME }}
+        run: vagrant --no-tty cloud auth login -t ${{ secrets.VAGRANT_TOKEN }} -u ${{ secrets.VAGRANT_USERNAME }}
 
       - name: vagrant cloud publish
         env:
           BOX_DATETIME: $(date "+%Y%m%dT%H%M%S")
+          BOX_FILENAME: ${{ matrix.name }}-${{ matrix.version }}-${{ matrix.arch }}.box
           BOX_PATH: build/${{ matrix.name }}/${{ matrix.version }}/${{ matrix.arch }}
+          BOX_SHA256SUM: $(cat $BOX_PATH/manifest.json | jq .versions[0].providers[0].checksum)
         run: >-
-          vagrant cloud publish --force --release
-          --checksum "$(cat $BOX_PATH/manifest.json | jq .versions[0].providers[0].checksum)"
-          --checksum-type sha256
-          jcmdln/${{ matrix.name }} ${{ matrix.version }}.$BOX_DATETIME libvirt
-          $BOX_PATH/${{ matrix.name }}-${{ matrix.version }}-${{ matrix.arch }}.box
+          vagrant cloud publish --force --release --checksum=$BOX_SHA256SUM --checksum-type=sha256
+          jcmdln/${{ matrix.name }} ${{ matrix.version }}-$BOX_DATETIME libvirt $BOX_PATH/$BOX_FILENAME
 
       - name: vagrant cloud auth logout
         run: vagrant --no-tty cloud auth logout
