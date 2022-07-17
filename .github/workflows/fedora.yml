@@ -23,20 +23,23 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
           - { name: fedora, version: "35", version_minor: "1.2", arch: x86_64 }
           - { name: fedora, version: "36", version_minor: "1.5", arch: x86_64 }
+
+    name: ${{ matrix.name }}-${{ matrix.version }}-${{ matrix.version_minor }}-${{ matrix.arch }}
+    runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
 
-      - name: prepare
-        run: |
-          sudo apt update
-          sudo apt install -y jq ovmf qemu-kvm vagrant
+      # - name: prepare
+      #   run: |
+      #     sudo apt update
+      #     sudo apt install -y jq ovmf qemu-kvm vagrant
 
       - name: packer init
         run: packer init ${{ matrix.name }}/${{ matrix.name }}.pkr.hcl
@@ -44,28 +47,28 @@ jobs:
       - name: packer validate
         run: packer validate -syntax-only ${{ matrix.name }}/${{ matrix.name }}.pkr.hcl
 
-      - name: packer build
-        run: >-
-          packer build -color=false -on-error=abort
-          -var="os_arch=${{ matrix.arch }}"
-          -var="os_version=${{ matrix.version }}"
-          -var="os_version_minor=${{ matrix.version_minor }}"
-          -var="qemu_accel=tcg"
-          -var="qemu_ssh_timeout=1h"
-          ${{ matrix.name }}/${{ matrix.name }}.pkr.hcl
+      # - name: packer build
+      #   run: >-
+      #     packer build -color=false -on-error=abort
+      #     -var="os_arch=${{ matrix.arch }}"
+      #     -var="os_version=${{ matrix.version }}"
+      #     -var="os_version_minor=${{ matrix.version_minor }}"
+      #     -var="qemu_accel=tcg"
+      #     -var="qemu_ssh_timeout=1h"
+      #     ${{ matrix.name }}/${{ matrix.name }}.pkr.hcl
 
-      - name: vagrant cloud auth
-        run: vagrant --no-tty cloud auth login -t ${{ secrets.VAGRANT_TOKEN }} -u ${{ secrets.VAGRANT_USERNAME }}
+      # - name: vagrant cloud auth
+      #   run: vagrant --no-tty cloud auth login -t ${{ secrets.VAGRANT_TOKEN }} -u ${{ secrets.VAGRANT_USERNAME }}
 
-      - name: vagrant cloud publish
-        env:
-          BOX_DATETIME: $(date "+%Y%m%dT%H%M%S")
-          BOX_FILENAME: ${{ matrix.name }}-${{ matrix.version }}-${{ matrix.arch }}.box
-          BOX_PATH: build/${{ matrix.name }}/${{ matrix.version }}/${{ matrix.arch }}
-          BOX_SHA256SUM: $(cat $BOX_PATH/manifest.json | jq .versions[0].providers[0].checksum)
-        run: >-
-          vagrant cloud publish --force --release --checksum=$BOX_SHA256SUM --checksum-type=sha256
-          jcmdln/${{ matrix.name }} ${{ matrix.version }}-$BOX_DATETIME libvirt $BOX_PATH/$BOX_FILENAME
+      # - name: vagrant cloud publish
+      #   env:
+      #     BOX_DATETIME: $(date "+%Y%m%dT%H%M%S")
+      #     BOX_FILENAME: ${{ matrix.name }}-${{ matrix.version }}-${{ matrix.arch }}.box
+      #     BOX_PATH: build/${{ matrix.name }}/${{ matrix.version }}/${{ matrix.arch }}
+      #     BOX_SHA256SUM: $(cat $BOX_PATH/manifest.json | jq .versions[0].providers[0].checksum)
+      #   run: >-
+      #     vagrant cloud publish --force --release --checksum=$BOX_SHA256SUM --checksum-type=sha256
+      #     jcmdln/${{ matrix.name }} ${{ matrix.version }}-$BOX_DATETIME libvirt $BOX_PATH/$BOX_FILENAME
 
-      - name: vagrant cloud auth logout
-        run: vagrant --no-tty cloud auth logout
+      # - name: vagrant cloud auth logout
+      #   run: vagrant --no-tty cloud auth logout
