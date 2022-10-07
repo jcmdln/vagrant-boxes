@@ -20,4 +20,8 @@ Vagrant.configure("2") do |config|
   config.vm.define "openbsd" do |c|
     c.vm.box = "jcmdln/openbsd"
   end
+
+  config.vm.define "nixos" do |c|
+    c.vm.box = "jcmdln/nixos"
+  end
 end

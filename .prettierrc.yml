@@ -2,8 +2,3 @@
 ---
 options:
   editorconfig: true
-
-overrides:
-  - files: "*.md"
-    options:
-      tabWidth: 1

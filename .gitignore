@@ -1,4 +1,31 @@
 # SPDX-License-Identifier: ISC
 
-.vagrant
-build
+*
+
+!.editorconfig
+!.gitignore
+!.prettierrc.yml
+!LICENSE
+!README.md
+!Vagrantfile
+
+!**/*.hcl
+!**/*.md
+!**/Vagrantfile.template
+
+!.github/
+!.github/workflows/*.yml
+
+!.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+
+!fedora/
+!fedora/kickstart.cfg
+
+!nixos/
+!nixos/configuration.nix
+!nixos/install.sh
+
+!openbsd/
+!openbsd/install.conf

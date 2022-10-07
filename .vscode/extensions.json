@@ -3,6 +3,8 @@
     "editorconfig.editorconfig",
     "wayou.vscode-todo-highlight",
     "esbenp.prettier-vscode",
-    "hashicorp.hcl"
+    "hashicorp.hcl",
+    "redhat.vscode-yaml",
+    "jnoortheen.nix-ide"
   ]
 }
