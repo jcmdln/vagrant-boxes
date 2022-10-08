@@ -34,3 +34,4 @@
 !tools/
 !tools/vagrant-manifest.sh
 !tools/vagrant-pubkey.sh
+!tools/vagrant-publish.sh
