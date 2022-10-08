@@ -19,7 +19,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    bpftrace
     btrfs-progs
     curl
     dig
