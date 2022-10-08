@@ -1,4 +1,28 @@
+This repository provides Vagrant boxes which are built with Packer and
+automated with [tools/](./tools/).
+
+```sh
+# Example of how the `build/` tree is organized
+$ tree build/
+build/
+└── nixos
+    └── 22.05
+        └── x86_64
+            ├── manifest.json
+            ├── nixos-22.05-x86_64.box
+            └── nixos-22.05-x86_64.qcow2
+
+3 directories, 3 files
+```
+
 # Using
+
+Ensure the system dependencies in the following example are installed:
+
+```sh
+# Fedora Linux
+sudo dnf install coreutils curl gawk packer vagrant-libvirt
+```
 
 ## Fedora
 
