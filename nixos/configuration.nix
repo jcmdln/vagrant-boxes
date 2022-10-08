@@ -64,7 +64,6 @@
     resolved.enable = true;
   };
 
-  system.stateVersion = "22.05";
   time.timeZone = "US/Eastern";
 
   users.users = {
