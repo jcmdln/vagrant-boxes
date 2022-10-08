@@ -29,3 +29,7 @@
 
 !openbsd/
 !openbsd/install.conf
+
+!tools/
+!tools/vagrant-manifest.sh
+!tools/vagrant-pubkey.sh
