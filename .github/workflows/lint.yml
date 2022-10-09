@@ -5,11 +5,11 @@ name: lint
 on:
   pull_request:
     paths:
-      - .github/workflows/fedora.yml
+      - .github/workflows/lint.yml
       - boxes.pkg.hcl
   push:
     paths:
-      - .github/workflows/fedora.yml
+      - .github/workflows/lint.yml
       - boxes.pkg.hcl
   workflow_dispatch:
 
