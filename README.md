@@ -20,27 +20,28 @@ packer build .
 packer build -only=nixos.* .
 ```
 
-Add and start boxes:
+Add boxes by `manifest.json`:
 
 ```sh
 vagrant box add build/fedora/36/x86_64/manifest.json
 vagrant box add build/nixos/22.05/x86_64/manifest.json
+```
+
+Start boxes:
+
+```sh
 vagrant up
 ```
 
 # Publishing
 
-In this example, we're building `nixos-21.11-x86_64` and publishing it to
-Vagrant Cloud using [./tools/vagrant-publish.sh](./tools/vagrant-publish.sh).
+I created a [./tools/vagrant-publish.sh](./tools/vagrant-publish.sh) which uses
+the manifest [./tools/vagrant-manifest.sh](./tools/vagrant-manifest.sh) creates
+during a Packer build instead of hand-typing out what boxes we built.
 
-Ensure that `vagrant cloud auth whoami` confirms that you are logged in as the
-correct user, as we (unfortunately) parse the output of this command.
-
-```sh
-packer build . --only="*.nixos-22.05-x86_64"
-```
+Ensure that `vagrant cloud auth whoami` shows you are logged in.
 
 ```sh
-BOX_NAME="nixos" BOX_VERSION="21.11" BOX_ARCH="x86_64" \
+BOX_NAME="nixos" BOX_VERSION="22.04" BOX_ARCH="x86_64" \
 sh ./tools/vagrant-publish.sh
 ```
