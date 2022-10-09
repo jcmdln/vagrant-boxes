@@ -5,17 +5,23 @@
 
 # Includes
 !.editorconfig
+!.gitignore
+!.prettierrc.yml
+!boxes.pkr.hcl
+!LICENSE
+!README.md
+!Vagrantfile
+
+!**/*.md
+!**/Vagrantfile.template
+
 !.github/
 !.github/workflows/
 !.github/workflows/*.yml
-!.gitignore
-!.prettierrc.yml
 !.vscode/
 !.vscode/extensions.json
 !.vscode/settings.json
-!**/*.hcl
-!**/*.md
-!**/Vagrantfile.template
+
 !assets/
 !assets/fedora/
 !assets/fedora/kickstart.cfg
@@ -24,13 +30,11 @@
 !assets/nixos/install.sh
 !assets/openbsd/
 !assets/openbsd/install.conf
-!LICENSE
-!README.md
+
 !tools/
 !tools/vagrant-manifest.sh
 !tools/vagrant-pubkey.sh
 !tools/vagrant-publish.sh
-!Vagrantfile
 
 # Re-ignore
 build/

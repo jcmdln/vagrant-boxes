@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: ISC
+---
+name: lint
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/fedora.yml
+      - boxes.pkg.hcl
+  push:
+    paths:
+      - .github/workflows/fedora.yml
+      - boxes.pkg.hcl
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: packer init
+        run: packer init .
+
+      - name: packer validate
+        run: packer validate -syntax-only .
