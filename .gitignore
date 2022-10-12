@@ -16,7 +16,7 @@
 
 !.github/
 !.github/workflows/
-!.github/workflows/*.yml
+!.github/workflows/lint.yml
 
 !.vscode/
 !.vscode/extensions.json
