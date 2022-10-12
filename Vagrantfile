@@ -17,6 +17,10 @@ Vagrant.configure("2") do |config|
     c.vm.synced_folder '.', '/vagrant', disabled: true
   end
 
+  config.vm.define "guix" do |c|
+    c.vm.box = "jcmdln/guix"
+  end
+
   config.vm.define "nixos" do |c|
     c.vm.box = "jcmdln/nixos"
   end

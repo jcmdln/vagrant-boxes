@@ -25,6 +25,9 @@
 !assets/
 !assets/fedora/
 !assets/fedora/kickstart.cfg
+!assets/guix/
+!assets/guix/config.scm
+!assets/guix/install.sh
 !assets/nixos/
 !assets/nixos/configuration.nix
 !assets/nixos/install.sh
