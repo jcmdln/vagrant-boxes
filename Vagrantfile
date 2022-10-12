@@ -21,8 +21,7 @@ Vagrant.configure("2") do |config|
     c.vm.box = "jcmdln/nixos"
   end
 
-  # FIXME: OpenBSD fails to boot using efi
-  # config.vm.define "openbsd" do |c|
-  #   c.vm.box = "jcmdln/openbsd"
-  # end
+  config.vm.define "openbsd" do |c|
+    c.vm.box = "jcmdln/openbsd"
+  end
 end

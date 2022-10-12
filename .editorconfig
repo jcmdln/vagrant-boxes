@@ -10,7 +10,7 @@ insert_final_newline = true
 tab_width = 4
 trim_trailing_whitespace = true
 
-[*.{hcl,json{,c},nix,y{,a}ml}]
+[*.{hcl,json{,c},nix,scm,y{,a}ml}]
 indent_size = 2
 tab_width = 2
 

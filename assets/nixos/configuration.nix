@@ -27,7 +27,6 @@
     gnused
     inetutils
     links2
-    mosh
     tmux
     unzip
     vim

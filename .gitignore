@@ -7,7 +7,6 @@
 !.editorconfig
 !.gitignore
 !.prettierrc.yml
-!boxes.pkr.hcl
 !LICENSE
 !README.md
 !Vagrantfile
@@ -18,6 +17,7 @@
 !.github/
 !.github/workflows/
 !.github/workflows/*.yml
+
 !.vscode/
 !.vscode/extensions.json
 !.vscode/settings.json
@@ -30,6 +30,12 @@
 !assets/nixos/install.sh
 !assets/openbsd/
 !assets/openbsd/install.conf
+
+!packer/
+!packer/fedora.pkr.hcl
+!packer/guix.pkr.hcl
+!packer/nixos.pkr.hcl
+!packer/openbsd.pkr.hcl
 
 !tools/
 !tools/vagrant-manifest.sh

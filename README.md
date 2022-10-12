@@ -16,15 +16,20 @@ Build with Packer:
 # Build all boxes
 packer build .
 
-# Build only NixOS boxes
-packer build -only=nixos.* .
+# Build all NixOS boxes
+packer build -only=*.nixos* .
+
+# Build a specific NixOS box
+packer build -only=qemu.nixos-22.05-x86_64 .
 ```
 
 Add boxes by `manifest.json`:
 
 ```sh
 vagrant box add build/fedora/36/x86_64/manifest.json
+vagrant box add build/guix/1.3.0/x86_64/manifest.json
 vagrant box add build/nixos/22.05/x86_64/manifest.json
+vagrant box add build/openbsd/7.1/amd64/manifest.json
 ```
 
 Start boxes:
