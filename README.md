@@ -47,6 +47,6 @@ during a Packer build instead of hand-typing out what boxes we built.
 Ensure that `vagrant cloud auth whoami` shows you are logged in.
 
 ```sh
-BOX_NAME="nixos" BOX_VERSION="22.04" BOX_ARCH="x86_64" \
+BOX_NAME="nixos" BOX_VERSION="22.05" BOX_ARCH="x86_64" \
 sh ./tools/vagrant-publish.sh
 ```
