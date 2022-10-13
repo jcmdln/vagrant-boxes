@@ -30,10 +30,10 @@ mkdir -p /mnt/boot/efi
 mount -o compress=zstd,subvol=home /dev/disk/by-label/nixos /mnt/home
 mount -o noatime,compress=zstd,subvol=nix /dev/disk/by-label/nixos /mnt/nix
 
-# Configure and install NixOS
-nixos-generate-config --root /mnt
-cp /root/configuration.nix /mnt/etc/nixos/configuration.nix
-nixos-install --no-root-passwd
+# Install NixOS, skipping prompt for root password
+nixos-install --no-root-passwd \
+    --flake github:jcmdln/nixos#vagrant-libvirt \
+    --root /mnt
 
 # Set password for root user
 echo "root:vagrant" | chpasswd

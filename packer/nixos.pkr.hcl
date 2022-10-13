@@ -40,12 +40,6 @@ build {
     iso_url = "https://releases.nixos.org/nixos/22.05/nixos-22.05.3377.c9389643ae6/nixos-minimal-22.05.3377.c9389643ae6-x86_64-linux.iso"
   }
 
-  provisioner "file" {
-    name = "nixos-config"
-    source = "./assets/nixos/configuration.nix"
-    destination = "/root/configuration.nix"
-  }
-
   provisioner "shell" {
     name = "nixos-install"
     script = "./assets/nixos/install.sh"
