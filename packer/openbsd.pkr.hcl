@@ -18,7 +18,7 @@ source "qemu" "openbsd" {
   memory = 2048
   qemuargs = [
     ["-accel", "kvm"],
-    #["-bios", "/usr/share/OVMF/OVMF_CODE.fd"],
+    //["-bios", "/usr/share/OVMF/OVMF_CODE.fd"],
     ["-cpu", "qemu64"],
     ["-machine", "q35"],
   ]
