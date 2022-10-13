@@ -30,13 +30,14 @@ mkdir -p /mnt/boot/efi
 mount -o compress=zstd,subvol=home /dev/disk/by-label/nixos /mnt/home
 mount -o noatime,compress=zstd,subvol=nix /dev/disk/by-label/nixos /mnt/nix
 
+# Clone NixOS config
+nix-env -iA nixos.git
+git clone https://github.com/jcmdln/nixos /mnt/etc/nixos
+
 # Install NixOS, skipping prompt for root password
 nixos-install --no-root-passwd \
-    --flake github:jcmdln/nixos#vagrant-libvirt \
+    --flake /mnt/etc/nixos#vagrant-libvirt \
     --root /mnt
-
-# Set password for root user
-echo "root:vagrant" | chpasswd
 
 # Cleanup any garbage we may have accumulated
 nix-collect-garbage -d
