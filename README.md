@@ -29,7 +29,7 @@ Add boxes by `manifest.json`:
 vagrant box add build/fedora/36/x86_64/manifest.json
 vagrant box add build/guix/1.3.0/x86_64/manifest.json
 vagrant box add build/nixos/22.05/x86_64/manifest.json
-vagrant box add build/openbsd/7.1/amd64/manifest.json
+vagrant box add build/openbsd/7.2/amd64/manifest.json
 ```
 
 Start boxes:
@@ -40,13 +40,12 @@ vagrant up
 
 # Publishing
 
-I created a [./tools/vagrant-publish.sh](./tools/vagrant-publish.sh) which uses
+I created [./tools/vagrant-publish.sh](./tools/vagrant-publish.sh) which uses
 the manifest [./tools/vagrant-manifest.sh](./tools/vagrant-manifest.sh) creates
 during a Packer build instead of hand-typing out what boxes we built.
 
 Ensure that `vagrant cloud auth whoami` shows you are logged in.
 
 ```sh
-BOX_NAME="nixos" BOX_VERSION="22.05" BOX_ARCH="x86_64" \
-sh ./tools/vagrant-publish.sh
+TARGET="openbsd-7.2-amd64" sh ./tools/vagrant-publish.sh
 ```
