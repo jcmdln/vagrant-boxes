@@ -9,8 +9,8 @@
 
 (operating-system
   (host-name "guix")
-  (timezone "America/New_York")
   (locale "en_US.utf8")
+  (timezone "America/New_York")
 
   (initrd-modules (cons
     "virtio_scsi"
