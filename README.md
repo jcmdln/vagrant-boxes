@@ -14,13 +14,13 @@ Build with Packer:
 
 ```sh
 # Build all boxes
-packer build .
+packer build packer/
 
 # Build all NixOS boxes
-packer build -only=*.nixos* .
+packer build -only=*.nixos* packer/
 
 # Build a specific NixOS box
-packer build -only=qemu.nixos-22.05-x86_64 .
+packer build -only=qemu.nixos-22.05-x86_64 packer/
 ```
 
 Add boxes by `manifest.json`:
