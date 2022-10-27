@@ -12,13 +12,13 @@ source "qemu" "guix" {
   disk_compression = true
   disk_interface = "virtio-scsi"
   disk_size = "20G"
+  firmware = vars.firmware
   format = "qcow2"
   headless = var.headless
   http_directory = "./assets/guix"
   memory = 2048
   qemuargs = [
     ["-accel", var.qemu_accel],
-    ["-bios", var.qemu_bios],
     ["-cpu", var.qemu_cpu],
     ["-machine", var.qemu_machine],
   ]

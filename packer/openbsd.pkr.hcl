@@ -12,14 +12,13 @@ source "qemu" "openbsd" {
   disk_compression = true
   disk_interface = "virtio-scsi"
   disk_size = "20G"
+  //firmware = "OVMF.fd"
   format = "qcow2"
   headless = var.headless
   http_directory = "./assets/openbsd"
   memory = 2048
   qemuargs = [
     ["-accel", var.qemu_accel],
-    // FIXME: OpenBSD fails to boot using OVMF
-    //["-bios", var.qemu_bios],
     ["-cpu", var.qemu_cpu],
     ["-machine", var.qemu_machine],
   ]
