@@ -8,19 +8,19 @@ source "qemu" "nixos" {
     "systemctl start sshd.service<enter>"
   ]
   boot_wait = "30s"
-  cpus = 2
+  cpus = var.cpus
   disk_compression = true
   disk_interface = "virtio-scsi"
   disk_size = "20G"
   format = "qcow2"
-  headless = true
+  headless = var.headless
   http_directory = "./assets/nixos"
   memory = 2048
   qemuargs = [
-    ["-accel", "kvm"],
-    ["-bios", "/usr/share/OVMF/OVMF_CODE.fd"],
-    ["-cpu", "qemu64"],
-    ["-machine", "q35"],
+    ["-accel", var.qemu_accel],
+    ["-bios", var.qemu_bios],
+    ["-cpu", var.qemu_cpu],
+    ["-machine", var.qemu_machine],
   ]
   shutdown_command = "poweroff"
   ssh_agent_auth = false

@@ -39,6 +39,7 @@
 !packer/guix.pkr.hcl
 !packer/nixos.pkr.hcl
 !packer/openbsd.pkr.hcl
+!packer/variables.pkr.hcl
 
 !tools/
 !tools/vagrant-manifest.sh
