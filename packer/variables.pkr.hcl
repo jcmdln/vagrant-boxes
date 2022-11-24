@@ -6,7 +6,7 @@ variable "cpus" {
 }
 
 variable "firmware" {
-  type = bool
+  type = string
   default = "OVMF_CODE.fd"
 }
 
