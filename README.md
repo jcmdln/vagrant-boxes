@@ -3,14 +3,17 @@ automated with [tools/](./tools/).
 
 # Using
 
-Install system dependencies:
+## Prepare
+
+### Fedora Linux
 
 ```sh
-# Fedora Linux
-sudo dnf install coreutils curl gawk jq packer vagrant
+sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+sudo dnf install coreutils curl gawk jq packer
+sudo dnf install -y --repo=hashicorp vagrant
 ```
 
-Build with Packer:
+## Build
 
 ```sh
 # Build all boxes
@@ -20,8 +23,10 @@ packer build packer/
 packer build -only=*.nixos* packer/
 
 # Build a specific NixOS box
-packer build -only=qemu.nixos-22.05-x86_64 packer/
+packer build -only=nixos.qemu.nixos-22.05-x86_64 packer/
 ```
+
+## Run
 
 Add boxes by `manifest.json`:
 
@@ -38,10 +43,10 @@ Start boxes:
 vagrant up
 ```
 
-# Publishing
+## Publish
 
 I created [./tools/vagrant-publish.sh](./tools/vagrant-publish.sh) which uses
-the manifest [./tools/vagrant-manifest.sh](./tools/vagrant-manifest.sh) creates
+the manifest [./tools/vagrant-manifest.sh](./tools/vagrant-manifest.sh) created
 during a Packer build instead of hand-typing out what boxes we built.
 
 Ensure that `vagrant cloud auth whoami` shows you are logged in.
