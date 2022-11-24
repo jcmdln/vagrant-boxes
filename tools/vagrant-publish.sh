@@ -26,7 +26,7 @@ BOX_PATH="build/$BOX_NAME/$BOX_VERSION/$BOX_ARCH"
 
 BOX_DATETIME="$(date '+%Y%m%dT%H%M%S')" &&
 BOX_PATH="build/$BOX_NAME/$BOX_VERSION/$BOX_ARCH" &&
-BOX_SHA256SUM="$(cat $BOX_PATH/manifest.json | jq .versions[0].providers[0].checksum)"
+BOX_SHA256SUM="$(jq -r .versions[0].providers[0].checksum $BOX_PATH/manifest.json)"
 VAGRANT_USER="${VAGRANT_USER:-`vagrant cloud auth whoami --machine-readable | awk '{ print $NF }'`}"
 
 vagrant cloud publish --no-private \
