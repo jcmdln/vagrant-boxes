@@ -15,7 +15,7 @@ source "qemu" "nixos" {
   firmware = var.firmware
   format = "qcow2"
   headless = var.headless
-  http_directory = "./assets/nixos"
+  http_directory = "assets/nixos"
   memory = 2048
   qemuargs = [
     ["-accel", var.qemu_accel],
@@ -34,7 +34,7 @@ build {
 
   source "source.qemu.nixos" {
     name = "nixos-22.05-x86_64"
-    output_directory = "./build/${replace(source.name, "-", "/")}"
+    output_directory = "build/${replace(source.name, "-", "/")}"
     vm_name = "${source.name}.qcow2"
     iso_checksum = "sha256:03bd1df7cc5773f17884959757b78df68c30aa5eec2fbe4563ac3385b20cd4e0"
     iso_url = "https://releases.nixos.org/nixos/22.05/nixos-22.05.3377.c9389643ae6/nixos-minimal-22.05.3377.c9389643ae6-x86_64-linux.iso"
@@ -42,24 +42,45 @@ build {
 
   source "source.qemu.nixos" {
     name = "nixos-22.11-x86_64"
-    output_directory = "./build/${replace(source.name, "-", "/")}"
+    output_directory = "build/${replace(source.name, "-", "/")}"
     vm_name = "${source.name}.qcow2"
     iso_checksum = "sha256:53fa8398deb867b27f93f84bc2af6065f61ae4560be42368345c666e29b8282b"
     iso_url = "https://releases.nixos.org/nixos/22.11/nixos-22.11.968.9d692a724e7/nixos-minimal-22.11.968.9d692a724e7-x86_64-linux.iso"
   }
 
   provisioner "shell" {
+    name = "setup-partitions"
+    script = "assets/nixos/setup-partitions.sh"
+  }
+
+  provisioner "shell" {
+    name = "nixos-generate-config"
+    inline = ["nixos-generate-config --root /mnt"]
+  }
+
+  provisioner "file" {
+    name = "nixos-configuration"
+    source = "assets/nixos/configuration.nix"
+    destination = "/mnt/etc/nixos/configuration.nix"
+  }
+
+  provisioner "shell" {
     name = "nixos-install"
-    script = "./assets/nixos/install.sh"
+    inline = ["nixos-install --no-root-passwd"]
+  }
+
+  provisioner "shell" {
+    name = "nix-collect-garbage"
+    inline = ["nix-collect-garbage -d"]
   }
 
   post-processor "vagrant" {
     name = "vagrant-box"
     compression_level = 9
     keep_input_artifact = true
-    output = "./build/${replace(source.name, "-", "/")}/${source.name}.box"
+    output = "build/${replace(source.name, "-", "/")}/${source.name}.box"
     provider_override = "libvirt"
-    vagrantfile_template = "./assets/${split("-", source.name)[0]}/Vagrantfile.template"
+    vagrantfile_template = "assets/${split("-", source.name)[0]}/Vagrantfile.template"
   }
 
   post-processor "shell-local" {
@@ -69,6 +90,6 @@ build {
       "BOX_VERSION=${split("-", source.name)[1]}",
       "BOX_ARCH=${split("-", source.name)[2]}",
     ]
-    script = "./tools/vagrant-manifest.sh"
+    script = "tools/vagrant-manifest.sh"
   }
 }

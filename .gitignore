@@ -30,7 +30,7 @@
 !assets/guix/install.sh
 !assets/nixos/
 !assets/nixos/configuration.nix
-!assets/nixos/install.sh
+!assets/nixos/setup-partitions.sh
 !assets/openbsd/
 !assets/openbsd/install.conf
 
