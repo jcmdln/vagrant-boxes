@@ -9,8 +9,9 @@ automated with [tools/](./tools/).
 
 ```sh
 sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
-sudo dnf install coreutils curl gawk jq packer
-sudo dnf install -y --repo=hashicorp vagrant
+sudo dnf install -y --repo=hashicorp packer vagrant
+sudo dnf install -y coreutils curl gawk jq libvirt-client
+vagrant plugin install vagrant-hostmanager vagrant-libvirt
 ```
 
 ## Build
