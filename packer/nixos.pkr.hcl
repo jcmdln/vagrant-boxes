@@ -40,6 +40,14 @@ build {
     iso_url = "https://releases.nixos.org/nixos/22.05/nixos-22.05.3377.c9389643ae6/nixos-minimal-22.05.3377.c9389643ae6-x86_64-linux.iso"
   }
 
+  source "source.qemu.nixos" {
+    name = "nixos-22.11-x86_64"
+    output_directory = "./build/${replace(source.name, "-", "/")}"
+    vm_name = "${source.name}.qcow2"
+    iso_checksum = "sha256:53fa8398deb867b27f93f84bc2af6065f61ae4560be42368345c666e29b8282b"
+    iso_url = "https://releases.nixos.org/nixos/22.11/nixos-22.11.968.9d692a724e7/nixos-minimal-22.11.968.9d692a724e7-x86_64-linux.iso"
+  }
+
   provisioner "shell" {
     name = "nixos-install"
     script = "./assets/nixos/install.sh"
