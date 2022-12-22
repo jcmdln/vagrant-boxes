@@ -40,6 +40,14 @@ build {
     iso_url = "https://mirrors.kernel.org/fedora/releases/36/Server/x86_64/iso/Fedora-Server-netinst-x86_64-36-1.5.iso"
   }
 
+  source "source.qemu.fedora" {
+    name = "fedora-37-x86_64"
+    output_directory = "./build/${replace(source.name, "-", "/")}"
+    vm_name = "${source.name}.qcow2"
+    iso_checksum = "file:https://mirrors.kernel.org/fedora/releases/37/Server/x86_64/iso/Fedora-Server-37-1.7-x86_64-CHECKSUM"
+    iso_url = "https://mirrors.kernel.org/fedora/releases/37/Server/x86_64/iso/Fedora-Server-netinst-x86_64-37-1.7.iso"
+  }
+
   provisioner "shell" {
     name = "vagrant-pubkey"
     script = "./tools/vagrant-pubkey.sh"
