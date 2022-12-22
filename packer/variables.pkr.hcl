@@ -7,7 +7,7 @@ variable "cpus" {
 
 variable "firmware" {
   type = string
-  default = "OVMF_CODE.fd"
+  default = "/usr/share/OVMF/OVMF_CODE.fd"
 }
 
 variable "headless" {
