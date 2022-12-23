@@ -27,6 +27,8 @@ packer build -only=*.nixos* packer/
 packer build -only=nixos.qemu.nixos-22.11-x86_64 packer/
 ```
 
+You can get a full list of sources to build using `packer inspect packer/`.
+
 ## Run
 
 Add boxes by `manifest.json`:
