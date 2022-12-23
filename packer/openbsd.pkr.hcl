@@ -33,6 +33,14 @@ build {
   name = "openbsd"
 
   source "source.qemu.openbsd" {
+    name = "openbsd-7.1-amd64"
+    output_directory = "./build/${replace(source.name, "-", "/")}"
+    vm_name = "${source.name}.qcow2"
+    iso_checksum = "file:https://cdn.openbsd.org/pub/OpenBSD/7.1/amd64/SHA256"
+    iso_url = "https://cdn.openbsd.org/pub/OpenBSD/7.1/amd64/install71.iso"
+  }
+
+  source "source.qemu.openbsd" {
     name = "openbsd-7.2-amd64"
     output_directory = "./build/${replace(source.name, "-", "/")}"
     vm_name = "${source.name}.qcow2"
