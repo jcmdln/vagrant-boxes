@@ -55,14 +55,6 @@ build {
     ]
   }
 
-  provisioner "shell" {
-    name = "openbsd-syspatch"
-    inline = [
-      "set -ex",
-      "while [ -n \"$(syspatch -c)\" ]; do syspatch || true; done"
-    ]
-  }
-
   post-processor "vagrant" {
     name = "vagrant-box"
     compression_level = 9
