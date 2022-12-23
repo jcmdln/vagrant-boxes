@@ -56,3 +56,14 @@ Ensure that `vagrant cloud auth whoami` shows you are logged in.
 ```sh
 TARGET="openbsd-7.2-amd64" sh ./tools/vagrant-publish.sh
 ```
+
+# Notes
+
+## Delete all boxes and libvirt images
+
+```
+for BOX in $(vagrant box list | awk '{print $1}'); do
+    vagrant box remove --force --all $BOX; done &&
+for VOLUME in $(sudo virsh vol-list --pool default | awk '/.img/ {print $1}'); do
+    sudo virsh vol-delete --pool default $VOLUME; done
+```
