@@ -29,6 +29,7 @@
 !assets/guix/config.scm
 !assets/guix/install.sh
 !assets/nixos/
+!assets/nixos/hardware-configuration.nix
 !assets/nixos/configuration.nix
 !assets/nixos/setup-partitions.sh
 !assets/openbsd/

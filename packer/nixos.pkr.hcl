@@ -36,7 +36,7 @@ build {
     name = "nixos-22.05-x86_64"
     output_directory = "build/${replace(source.name, "-", "/")}"
     vm_name = "${source.name}.qcow2"
-    iso_checksum = "sha256:03bd1df7cc5773f17884959757b78df68c30aa5eec2fbe4563ac3385b20cd4e0"
+    iso_checksum = "sha256:832c36bf4b8bb217e616e5c3c715131791b8ffa4402fdc86e0ad732d5e3e8ca0"
     iso_url = "https://releases.nixos.org/nixos/22.05/nixos-22.05.3377.c9389643ae6/nixos-minimal-22.05.3377.c9389643ae6-x86_64-linux.iso"
   }
 
@@ -56,6 +56,12 @@ build {
   provisioner "shell" {
     name = "nixos-generate-config"
     inline = ["nixos-generate-config --root /mnt"]
+  }
+
+  provisioner "file" {
+    name = "nixos-hardware-configuration"
+    source = "assets/nixos/hardware-configuration.nix"
+    destination = "/mnt/etc/nixos/hardware-configuration.nix"
   }
 
   provisioner "file" {
