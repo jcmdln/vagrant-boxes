@@ -8,8 +8,8 @@ parted /dev/sda -- mklabel gpt
 
 # Create and format /boot partition
 parted /dev/sda -- mkpart ESP fat32 1MiB 1GiB
-mkfs.fat -F 32 -n boot /dev/sda1
 parted /dev/sda -- set 1 esp on
+mkfs.fat -F 32 -n boot /dev/sda1
 
 # Create and format btrfs partition
 parted /dev/sda -- mkpart primary 1GiB -1MiB

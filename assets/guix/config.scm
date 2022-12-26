@@ -9,6 +9,7 @@
 
 (operating-system
   (host-name "guix")
+  (keyboard-layout (keyboard-layout "us"))
   (locale "en_US.utf8")
   (timezone "America/New_York")
 
@@ -18,10 +19,15 @@
 
   (bootloader (bootloader-configuration
     (bootloader grub-efi-bootloader)
-    (target "/boot/efi")))
+    (targets (list "/boot/efi"))
+    (keyboard-layout keyboard-layout)))
 
   (file-systems (append
     (list
+      (file-system
+        (device (file-system-label "boot"))
+        (mount-point "/boot/efi")
+        (type "vfat"))
       (file-system
         (device (file-system-label "guix"))
         (mount-point "/")
@@ -45,10 +51,7 @@
       "curl"
       "emacs-no-x"
       "inetutils"
-      "links"
-      "tmux"
-      "unzip"
-      "vim"))
+      "unzip"))
     %base-packages))
 
   (services (append
@@ -65,6 +68,7 @@
   (users (cons
     (user-account
       (name "vagrant")
+      (password "vagrant")
       (group "users")
       (supplementary-groups '("wheel")))
     %base-user-accounts))
