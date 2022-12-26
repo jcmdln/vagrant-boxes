@@ -15,7 +15,7 @@ source "qemu" "openbsd" {
   //firmware = var.firmware
   format = "qcow2"
   headless = var.headless
-  http_directory = "./assets/openbsd"
+  http_directory = "assets/openbsd"
   memory = 2048
   qemuargs = [
     ["-accel", var.qemu_accel],
@@ -34,7 +34,7 @@ build {
 
   source "source.qemu.openbsd" {
     name = "openbsd-7.1-amd64"
-    output_directory = "./build/${replace(source.name, "-", "/")}"
+    output_directory = "build/${replace(source.name, "-", "/")}"
     vm_name = "${source.name}.qcow2"
     iso_checksum = "file:https://cdn.openbsd.org/pub/OpenBSD/7.1/amd64/SHA256"
     iso_url = "https://cdn.openbsd.org/pub/OpenBSD/7.1/amd64/install71.iso"
@@ -42,7 +42,7 @@ build {
 
   source "source.qemu.openbsd" {
     name = "openbsd-7.2-amd64"
-    output_directory = "./build/${replace(source.name, "-", "/")}"
+    output_directory = "build/${replace(source.name, "-", "/")}"
     vm_name = "${source.name}.qcow2"
     iso_checksum = "file:https://cdn.openbsd.org/pub/OpenBSD/7.2/amd64/SHA256"
     iso_url = "https://cdn.openbsd.org/pub/OpenBSD/7.2/amd64/install72.iso"
@@ -50,7 +50,7 @@ build {
 
   provisioner "shell" {
     name = "vagrant-pubkey"
-    script = "./tools/vagrant-pubkey.sh"
+    script = "tools/vagrant-pubkey.sh"
   }
 
   provisioner "shell" {
@@ -67,9 +67,9 @@ build {
     name = "vagrant-box"
     compression_level = 9
     keep_input_artifact = true
-    output = "./build/${replace(source.name, "-", "/")}/${source.name}.box"
+    output = "build/${replace(source.name, "-", "/")}/${source.name}.box"
     provider_override = "libvirt"
-    vagrantfile_template = "./assets/${split("-", source.name)[0]}/Vagrantfile.template"
+    vagrantfile_template = "assets/${split("-", source.name)[0]}/Vagrantfile.template"
   }
 
   post-processor "shell-local" {
@@ -79,6 +79,6 @@ build {
       "BOX_VERSION=${split("-", source.name)[1]}",
       "BOX_ARCH=${split("-", source.name)[2]}",
     ]
-    script = "./tools/vagrant-manifest.sh"
+    script = "tools/vagrant-manifest.sh"
   }
 }

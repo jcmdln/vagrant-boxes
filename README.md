@@ -44,7 +44,11 @@ find build/ -type f -name 'manifest.json' -exec vagrant box add {} \;
 Start boxes:
 
 ```sh
+# Start all boxes
 vagrant up
+
+# Start a specific box
+vagrant up nixos
 ```
 
 ## Publish
