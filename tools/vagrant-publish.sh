@@ -1,6 +1,4 @@
 #!/bin/sh
-# SPDX-License-Identifier: ISC
-
 set -ex
 
 [ -n "$(command -v awk)" ]     || exit 1

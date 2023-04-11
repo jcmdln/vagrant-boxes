@@ -21,7 +21,7 @@ vagrant plugin install vagrant-hostmanager vagrant-libvirt
 packer build packer/
 
 # Build all NixOS boxes
-packer build -only=*.nixos* packer/
+packer build -only=nixos.* packer/
 
 # Build a specific NixOS box
 packer build -only=nixos.qemu.nixos-22.11-x86_64 packer/
@@ -54,13 +54,13 @@ vagrant up nixos
 ## Publish
 
 I created [./tools/vagrant-publish.sh](./tools/vagrant-publish.sh) which uses
-the manifest [./tools/vagrant-manifest.sh](./tools/vagrant-manifest.sh) created
-during a Packer build instead of hand-typing out what boxes we built.
+the [./tools/vagrant-manifest.sh](./tools/vagrant-manifest.sh) generated during
+the Packer build for _mostly_ automated publishing.
 
 Ensure that `vagrant cloud auth whoami` shows you are logged in.
 
 ```sh
-TARGET="openbsd-7.2-amd64" sh ./tools/vagrant-publish.sh
+TARGET="openbsd-7.3-amd64" sh ./tools/vagrant-publish.sh
 ```
 
 # Notes

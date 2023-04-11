@@ -5,6 +5,7 @@
     "esbenp.prettier-vscode",
     "hashicorp.hcl",
     "redhat.vscode-yaml",
-    "jnoortheen.nix-ide"
+    "jnoortheen.nix-ide",
+    "sjhuangx.vscode-scheme"
   ]
 }

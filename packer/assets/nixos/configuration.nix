@@ -1,5 +1,3 @@
-# SPDX-License-Identifier: ISC
-
 { config, pkgs, ... }: {
   nix = {
     package = pkgs.nixFlakes;

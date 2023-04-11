@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: ISC
-
 source "qemu" "nixos" {
   accelerator = "kvm"
   boot_command = [
@@ -15,7 +13,7 @@ source "qemu" "nixos" {
   firmware = var.firmware
   format = "qcow2"
   headless = var.headless
-  http_directory = "assets/nixos"
+  http_directory = "packer/assets/nixos"
   memory = 2048
   qemuargs = [
     ["-accel", var.qemu_accel],
@@ -50,7 +48,7 @@ build {
 
   provisioner "shell" {
     name = "setup-partitions"
-    script = "assets/nixos/setup-partitions.sh"
+    script = "packer/assets/nixos/setup-partitions.sh"
   }
 
   provisioner "shell" {
@@ -60,13 +58,13 @@ build {
 
   provisioner "file" {
     name = "nixos-hardware-configuration"
-    source = "assets/nixos/hardware-configuration.nix"
+    source = "packer/assets/nixos/hardware-configuration.nix"
     destination = "/mnt/etc/nixos/hardware-configuration.nix"
   }
 
   provisioner "file" {
     name = "nixos-configuration"
-    source = "assets/nixos/configuration.nix"
+    source = "packer/assets/nixos/configuration.nix"
     destination = "/mnt/etc/nixos/configuration.nix"
   }
 
@@ -86,7 +84,7 @@ build {
     keep_input_artifact = true
     output = "build/${replace(source.name, "-", "/")}/${source.name}.box"
     provider_override = "libvirt"
-    vagrantfile_template = "assets/${split("-", source.name)[0]}/Vagrantfile.template"
+    vagrantfile_template = "packer/assets/${split("-", source.name)[0]}/Vagrantfile.template"
   }
 
   post-processor "shell-local" {

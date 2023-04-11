@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: ISC
-
 source "qemu" "fedora" {
   accelerator = "kvm"
   boot_command = [
@@ -15,7 +13,7 @@ source "qemu" "fedora" {
   firmware = var.firmware
   format = "qcow2"
   headless = var.headless
-  http_directory = "assets/fedora"
+  http_directory = "packer/assets/fedora"
   memory = 2048
   qemuargs = [
     ["-accel", var.qemu_accel],
@@ -36,16 +34,16 @@ build {
     name = "fedora-36-x86_64"
     output_directory = "build/${replace(source.name, "-", "/")}"
     vm_name = "${source.name}.qcow2"
-    iso_checksum = "file:https://mirrors.kernel.org/fedora/releases/36/Server/x86_64/iso/Fedora-Server-36-1.5-x86_64-CHECKSUM"
-    iso_url = "https://mirrors.kernel.org/fedora/releases/36/Server/x86_64/iso/Fedora-Server-netinst-x86_64-36-1.5.iso"
+    iso_checksum = "file:https://mirrors.kernel.org/fedora/releases/36/Everything/x86_64/iso/Fedora-Everything-36-1.5-x86_64-CHECKSUM"
+    iso_url = "https://mirrors.kernel.org/fedora/releases/36/Everything/x86_64/iso/Fedora-Everything-netinst-x86_64-36-1.5.iso"
   }
 
   source "source.qemu.fedora" {
     name = "fedora-37-x86_64"
     output_directory = "build/${replace(source.name, "-", "/")}"
     vm_name = "${source.name}.qcow2"
-    iso_checksum = "file:https://mirrors.kernel.org/fedora/releases/37/Server/x86_64/iso/Fedora-Server-37-1.7-x86_64-CHECKSUM"
-    iso_url = "https://mirrors.kernel.org/fedora/releases/37/Server/x86_64/iso/Fedora-Server-netinst-x86_64-37-1.7.iso"
+    iso_checksum = "file:https://mirrors.kernel.org/fedora/releases/37/Everything/x86_64/iso/Fedora-Everything-37-1.7-x86_64-CHECKSUM"
+    iso_url = "https://mirrors.kernel.org/fedora/releases/37/Everything/x86_64/iso/Fedora-Everything-netinst-x86_64-37-1.7.iso"
   }
 
   provisioner "shell" {
@@ -59,7 +57,7 @@ build {
     keep_input_artifact = true
     output = "build/${replace(source.name, "-", "/")}/${source.name}.box"
     provider_override = "libvirt"
-    vagrantfile_template = "assets/${split("-", source.name)[0]}/Vagrantfile.template"
+    vagrantfile_template = "packer/assets/${split("-", source.name)[0]}/Vagrantfile.template"
   }
 
   post-processor "shell-local" {

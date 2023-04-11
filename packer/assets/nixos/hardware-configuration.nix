@@ -1,5 +1,3 @@
-# SPDX-License-Identifier: ISC
-
 { config, lib, modulesPath, ... }: {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")

@@ -1,6 +1,4 @@
 #!/bin/sh
-# SPDX-License-Identifier: ISC
-
 set -ex
 
 [ -n $BOX_ARCH ]    || exit 1

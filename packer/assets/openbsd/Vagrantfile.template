@@ -1,5 +1,3 @@
-# SPDX-License-Identifier: ISC
-
 Vagrant.configure("2") do |config|
   config.ssh.shell = "/bin/ksh -l"
   config.ssh.sudo_command = "doas %c"

@@ -1,39 +1,51 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "editor.wordWrapColumn": 99,
+  "editor.wordWrapColumn": 100,
+
   "files.associations": {
-    "**/Vagrantfile.template": "ruby",
-    "**/tox.ini": "properties"
+    "**/tox.ini": "properties",
+    "**/Vagrantfile.template": "ruby"
   },
+
   "files.exclude": {
     "**/.git/**": true,
     "**/.vagrant/**": true,
     "**/.venv/**": true,
     "**/.tox/**": true
   },
+
   "files.watcherExclude": {
     "**/build/**": true
+  },
+
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  "[nix]": {
+    "editor.defaultFormatter": "jnoortheen.nix-ide"
   },
   "nix.enableLanguageServer": true,
   "nix.formatterPath": "nixpkgs-fmt",
   "nix.serverPath": "rnix-lsp",
+
   "vsicons.associations.files": [
     {
-      "icon": "vagrant",
+      "extensions": ["scm"],
+      "format": "scheme",
+      "icon": "lisp"
+    },
+    {
       "extensions": ["template"],
-      "format": "ruby"
+      "format": "ruby",
+      "icon": "vagrant"
     }
   ],
+
   "yaml.schemas": {
     "https://json.schemastore.org/github-workflow.json": [
       "${workspaceFolder}/.github/workflows/*.yml"
     ]
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[nix]": {
-    "editor.defaultFormatter": "jnoortheen.nix-ide"
   }
 }

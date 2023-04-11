@@ -1,5 +1,3 @@
-# SPDX-License-Identifier: ISC
-
 # Ignore everything
 *
 
@@ -11,9 +9,6 @@
 !README.md
 !Vagrantfile
 
-!**/*.md
-!**/Vagrantfile.template
-
 !.github/
 !.github/workflows/
 !.github/workflows/lint.yml
@@ -22,20 +17,19 @@
 !.vscode/extensions.json
 !.vscode/settings.json
 
-!assets/
-!assets/fedora/
-!assets/fedora/kickstart.cfg
-!assets/guix/
-!assets/guix/config.scm
-!assets/guix/install.sh
-!assets/nixos/
-!assets/nixos/hardware-configuration.nix
-!assets/nixos/configuration.nix
-!assets/nixos/setup-partitions.sh
-!assets/openbsd/
-!assets/openbsd/install.conf
-
 !packer/
+!packer/assets/
+!packer/assets/centos/
+!packer/assets/centos/**
+!packer/assets/fedora/
+!packer/assets/fedora/**
+!packer/assets/guix/
+!packer/assets/guix/**
+!packer/assets/nixos/
+!packer/assets/nixos/**
+!packer/assets/openbsd/
+!packer/assets/openbsd/**
+!packer/centos.pkr.hcl
 !packer/fedora.pkr.hcl
 !packer/guix.pkr.hcl
 !packer/nixos.pkr.hcl
@@ -46,6 +40,3 @@
 !tools/vagrant-manifest.sh
 !tools/vagrant-pubkey.sh
 !tools/vagrant-publish.sh
-
-# Re-ignore
-build/

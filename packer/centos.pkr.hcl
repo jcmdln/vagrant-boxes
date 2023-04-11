@@ -1,11 +1,11 @@
-source "qemu" "guix" {
+source "qemu" "centos" {
   accelerator = "kvm"
   boot_command = [
-    "<leftCtrlOn><leftAltOn><f4><leftAltOff><leftCtrlOff><enter>",
-    "passwd<enter>vagrant<enter>vagrant<enter>",
-    "herd start ssh-daemon<enter>",
+    "e<down><down><end> ",
+    "inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kickstart.cfg ",
+    "<leftCtrlOn>x<leftCtrlOff>",
   ]
-  boot_wait = "60s"
+  boot_wait = "30s"
   cpus = var.cpus
   disk_compression = true
   disk_interface = "virtio-scsi"
@@ -13,59 +13,42 @@ source "qemu" "guix" {
   firmware = var.firmware
   format = "qcow2"
   headless = var.headless
-  http_directory = "packer/assets/guix"
+  http_directory = "packer/assets/centos"
   memory = 2048
   qemuargs = [
     ["-accel", var.qemu_accel],
     ["-cpu", var.qemu_cpu],
     ["-machine", var.qemu_machine],
   ]
-  shutdown_command = "shutdown"
+  shutdown_command = "echo vagrant | sudo -S poweroff"
   ssh_agent_auth = false
   ssh_password = "vagrant"
-  ssh_username = "root"
+  ssh_username = "vagrant"
   ssh_timeout = "30m"
 }
 
 build {
-  name = "guix"
+  name = "centos"
 
-  source "source.qemu.guix" {
-    name = "guix-1.3.0-x86_64"
+  source "source.qemu.centos" {
+    name = "centos-8stream-x86_64"
     output_directory = "build/${replace(source.name, "-", "/")}"
     vm_name = "${source.name}.qcow2"
-    iso_checksum = "sha256:f2b30458fa1736eeee3b82f34aab1d72f3964bef0477329bb75281d2b7bb6d4b"
-    iso_url = "https://ftpmirror.gnu.org/gnu/guix/guix-system-install-1.3.0.x86_64-linux.iso"
+    iso_checksum = "file:http://mirror.cs.vt.edu/pub/CentOS/8-stream/isos/x86_64/CHECKSUM"
+    iso_url = "http://mirror.cs.vt.edu/pub/CentOS/8-stream/isos/x86_64/CentOS-Stream-8-20230404.0-x86_64-boot.iso"
   }
 
-  source "source.qemu.guix" {
-    name = "guix-1.4.0-x86_64"
+  source "source.qemu.centos" {
+    name = "centos-9stream-x86_64"
     output_directory = "build/${replace(source.name, "-", "/")}"
     vm_name = "${source.name}.qcow2"
-    iso_checksum = "sha256:087a97dba2319477185471a28812949cc165e60e58863403e4a606c1baa05f81"
-    iso_url = "https://ftpmirror.gnu.org/gnu/guix/guix-system-install-1.4.0.x86_64-linux.iso"
+    iso_checksum = "file:https://mirror.stream.centos.org/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-latest-x86_64-dvd1.iso.SHA256SUM"
+    iso_url = "https://mirror.stream.centos.org/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-latest-x86_64-boot.iso"
   }
 
   provisioner "shell" {
-    name = "setup-partitions"
-    script = "packer/assets/guix/setup-partitions.sh"
-  }
-
-  provisioner "file" {
-    name = "guix-config"
-    source = "packer/assets/guix/config.scm"
-    destination = "/root/config.scm"
-  }
-
-  provisioner "shell" {
-    name = "guix-install"
-    inline = [
-      "set -ex",
-      "herd start cow-store /mnt",
-      "mkdir /mnt/etc",
-      "cp /root/config.scm /mnt/etc/config.scm",
-      "guix system init /mnt/etc/config.scm /mnt",
-    ]
+    name = "vagrant-pubkey"
+    script = "tools/vagrant-pubkey.sh"
   }
 
   post-processor "vagrant" {

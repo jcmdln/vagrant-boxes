@@ -1,5 +1,3 @@
-;; SPDX-License-Identifier: ISC
-
 (use-modules
   (gnu)
   (gnu packages)
@@ -26,7 +24,7 @@
     (list
       (file-system
         (device (file-system-label "boot"))
-        (mount-point "/boot/efi")
+        (mount-point "/boot")
         (type "vfat"))
       (file-system
         (device (file-system-label "guix"))
@@ -35,13 +33,13 @@
         (type "btrfs"))
       (file-system
         (device (file-system-label "guix"))
-        (mount-point "/gnu")
-        (options "noatime,compress=zstd,subvol=gnu")
+        (mount-point "/home")
+        (options "compress=zstd,subvol=home")
         (type "btrfs"))
       (file-system
         (device (file-system-label "guix"))
-        (mount-point "/home")
-        (options "compress=zstd,subvol=home")
+        (mount-point "/gnu")
+        (options "noatime,compress=zstd,subvol=gnu")
         (type "btrfs")))
     %base-file-systems))
 
@@ -65,11 +63,12 @@
         (size "512M"))))
     %base-services))
 
-  (users (cons
-    (user-account
-      (name "vagrant")
-      (password "vagrant")
-      (group "users")
-      (supplementary-groups '("wheel")))
+  (users (append
+    (list
+      (user-account
+        (name "vagrant")
+        (password "vagrant")
+        (group "users")
+        (supplementary-groups '("wheel"))))
     %base-user-accounts))
 ) ;; operating-system

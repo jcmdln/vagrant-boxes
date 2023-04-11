@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: ISC
-
 variable "cpus" {
   type = number
   default = 2

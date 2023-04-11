@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: ISC
-
 source "qemu" "openbsd" {
   accelerator = "kvm"
   boot_command = [
@@ -12,10 +10,10 @@ source "qemu" "openbsd" {
   disk_compression = true
   disk_interface = "virtio-scsi"
   disk_size = "20G"
-  //firmware = var.firmware
+  // firmware = var.firmware
   format = "qcow2"
   headless = var.headless
-  http_directory = "assets/openbsd"
+  http_directory = "packer/assets/openbsd"
   memory = 2048
   qemuargs = [
     ["-accel", var.qemu_accel],
@@ -33,19 +31,19 @@ build {
   name = "openbsd"
 
   source "source.qemu.openbsd" {
-    name = "openbsd-7.1-amd64"
-    output_directory = "build/${replace(source.name, "-", "/")}"
-    vm_name = "${source.name}.qcow2"
-    iso_checksum = "file:https://cdn.openbsd.org/pub/OpenBSD/7.1/amd64/SHA256"
-    iso_url = "https://cdn.openbsd.org/pub/OpenBSD/7.1/amd64/install71.iso"
-  }
-
-  source "source.qemu.openbsd" {
     name = "openbsd-7.2-amd64"
     output_directory = "build/${replace(source.name, "-", "/")}"
     vm_name = "${source.name}.qcow2"
     iso_checksum = "file:https://cdn.openbsd.org/pub/OpenBSD/7.2/amd64/SHA256"
     iso_url = "https://cdn.openbsd.org/pub/OpenBSD/7.2/amd64/install72.iso"
+  }
+
+  source "source.qemu.openbsd" {
+    name = "openbsd-7.3-amd64"
+    output_directory = "build/${replace(source.name, "-", "/")}"
+    vm_name = "${source.name}.qcow2"
+    iso_checksum = "file:https://cdn.openbsd.org/pub/OpenBSD/7.3/amd64/SHA256"
+    iso_url = "https://cdn.openbsd.org/pub/OpenBSD/7.3/amd64/install73.iso"
   }
 
   provisioner "shell" {
@@ -69,7 +67,7 @@ build {
     keep_input_artifact = true
     output = "build/${replace(source.name, "-", "/")}/${source.name}.box"
     provider_override = "libvirt"
-    vagrantfile_template = "assets/${split("-", source.name)[0]}/Vagrantfile.template"
+    vagrantfile_template = "packer/assets/${split("-", source.name)[0]}/Vagrantfile.template"
   }
 
   post-processor "shell-local" {
