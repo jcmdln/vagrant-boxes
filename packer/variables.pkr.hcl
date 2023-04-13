@@ -1,3 +1,8 @@
+variable "accelerator" {
+  type = string
+  default = "kvm"
+}
+
 variable "cpus" {
   type = number
   default = 2
@@ -13,14 +18,14 @@ variable "headless" {
   default = true
 }
 
-variable "qemu_accel" {
-  type = string
-  default = "kvm"
+variable "memory" {
+  type = number
+  default = 2048
 }
 
 variable "qemu_cpu" {
   type = string
-  default = "qemu64"
+  default = "Nehalem"
 }
 
 variable "qemu_machine" {

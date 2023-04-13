@@ -18,23 +18,7 @@
 !.vscode/settings.json
 
 !packer/
-!packer/assets/
-!packer/assets/centos/
-!packer/assets/centos/**
-!packer/assets/fedora/
-!packer/assets/fedora/**
-!packer/assets/guix/
-!packer/assets/guix/**
-!packer/assets/nixos/
-!packer/assets/nixos/**
-!packer/assets/openbsd/
-!packer/assets/openbsd/**
-!packer/centos.pkr.hcl
-!packer/fedora.pkr.hcl
-!packer/guix.pkr.hcl
-!packer/nixos.pkr.hcl
-!packer/openbsd.pkr.hcl
-!packer/variables.pkr.hcl
+!packer/**
 
 !tools/
 !tools/vagrant-manifest.sh
