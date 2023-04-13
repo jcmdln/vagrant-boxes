@@ -3,6 +3,11 @@ variable "accelerator" {
   default = "kvm"
 }
 
+variable "cpu_model" {
+  type = string
+  default = "Nehalem"
+}
+
 variable "cpus" {
   type = number
   default = 2
@@ -18,17 +23,12 @@ variable "headless" {
   default = true
 }
 
+variable "machine_type" {
+  type = string
+  default = "q35"
+}
+
 variable "memory" {
   type = number
   default = 2048
-}
-
-variable "qemu_cpu" {
-  type = string
-  default = "Nehalem"
-}
-
-variable "qemu_machine" {
-  type = string
-  default = "q35"
 }

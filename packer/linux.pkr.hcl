@@ -1,6 +1,8 @@
 source "qemu" "linux" {
   accelerator = var.accelerator
   boot_wait = "30s"
+  cdrom_interface = "virtio"
+  cpu_model = var.cpu_model
   cpus = var.cpus
   disk_compression = true
   disk_interface = "virtio-scsi"
@@ -9,12 +11,10 @@ source "qemu" "linux" {
   format = "qcow2"
   headless = var.headless
   http_directory = "packer/assets/${split("_", "${source.name}")[0]}"
+  machine_type = var.machine_type
   memory = var.memory
+  net_device = "virtio-net-pci"
   output_directory = "build/${replace(source.name, "_", "/")}/"
-  qemuargs = [
-    ["-cpu", "${var.qemu_cpu}"],
-    ["-machine", "${var.qemu_machine}"],
-  ]
   shutdown_command = "echo vagrant | sudo -S poweroff"
   ssh_agent_auth = false
   ssh_password = "vagrant"

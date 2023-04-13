@@ -1,11 +1,13 @@
 source "qemu" "openbsd" {
-  accelerator = "kvm"
+  // accelerator = var.accelerator
   boot_command = [
     "a<enter><wait5>",
     "http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.conf<enter><wait15>",
     "i<enter>",
   ]
   boot_wait = "30s"
+  #cdrom_interface = "virtio"
+  cpu_model = var.cpu_model
   cpus = var.cpus
   disk_compression = true
   disk_interface = "virtio-scsi"
@@ -13,18 +15,17 @@ source "qemu" "openbsd" {
   // firmware = var.firmware
   format = "qcow2"
   headless = var.headless
-  http_directory = "packer/assets/openbsd"
-  memory = 2048
-  qemuargs = [
-    ["-accel", var.qemu_accel],
-    ["-cpu", var.qemu_cpu],
-    ["-machine", var.qemu_machine],
-  ]
+  http_directory = "packer/assets/${split("-", "${source.name}")[0]}"
+  machine_type = var.machine_type
+  memory = var.memory
+  net_device = "virtio-net"
+  output_directory = "build/${replace(source.name, "-", "/")}/"
   shutdown_command = "shutdown -h -p now"
   ssh_agent_auth = false
   ssh_password = "vagrant"
-  ssh_username = "root"
   ssh_timeout = "30m"
+  ssh_username = "root"
+  vm_name = "${source.name}.qcow2"
 }
 
 build {
@@ -32,16 +33,12 @@ build {
 
   source "source.qemu.openbsd" {
     name = "openbsd-7.2-amd64"
-    output_directory = "build/${replace(source.name, "-", "/")}"
-    vm_name = "${source.name}.qcow2"
     iso_checksum = "file:https://cdn.openbsd.org/pub/OpenBSD/7.2/amd64/SHA256"
     iso_url = "https://cdn.openbsd.org/pub/OpenBSD/7.2/amd64/install72.iso"
   }
 
   source "source.qemu.openbsd" {
     name = "openbsd-7.3-amd64"
-    output_directory = "build/${replace(source.name, "-", "/")}"
-    vm_name = "${source.name}.qcow2"
     iso_checksum = "file:https://cdn.openbsd.org/pub/OpenBSD/7.3/amd64/SHA256"
     iso_url = "https://cdn.openbsd.org/pub/OpenBSD/7.3/amd64/install73.iso"
   }

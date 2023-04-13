@@ -1,11 +1,13 @@
 source "qemu" "nixos" {
-  accelerator = "kvm"
+  accelerator = var.accelerator
   boot_command = [
     "sudo -i<enter>",
     "passwd<enter>vagrant<enter>vagrant<enter>",
     "systemctl start sshd.service<enter>"
   ]
-  boot_wait = "30s"
+  boot_wait = "60s"
+  cdrom_interface = "virtio"
+  cpu_model = var.cpu_model
   cpus = var.cpus
   disk_compression = true
   disk_interface = "virtio-scsi"
@@ -13,18 +15,17 @@ source "qemu" "nixos" {
   firmware = var.firmware
   format = "qcow2"
   headless = var.headless
-  http_directory = "packer/assets/nixos"
-  memory = 2048
-  qemuargs = [
-    ["-accel", var.qemu_accel],
-    ["-cpu", var.qemu_cpu],
-    ["-machine", var.qemu_machine],
-  ]
+  http_directory = "packer/assets/${split("-", "${source.name}")[0]}"
+  machine_type = var.machine_type
+  memory = var.memory
+  net_device = "virtio-net-pci"
+  output_directory = "build/${replace(source.name, "-", "/")}/"
   shutdown_command = "poweroff"
   ssh_agent_auth = false
   ssh_password = "vagrant"
-  ssh_username = "root"
   ssh_timeout = "30m"
+  ssh_username = "root"
+  vm_name = "${source.name}.qcow2"
 }
 
 build {
@@ -32,16 +33,12 @@ build {
 
   source "source.qemu.nixos" {
     name = "nixos-22.05-x86_64"
-    output_directory = "build/${replace(source.name, "-", "/")}"
-    vm_name = "${source.name}.qcow2"
     iso_checksum = "sha256:832c36bf4b8bb217e616e5c3c715131791b8ffa4402fdc86e0ad732d5e3e8ca0"
     iso_url = "https://releases.nixos.org/nixos/22.05/nixos-22.05.3377.c9389643ae6/nixos-minimal-22.05.3377.c9389643ae6-x86_64-linux.iso"
   }
 
   source "source.qemu.nixos" {
     name = "nixos-22.11-x86_64"
-    output_directory = "build/${replace(source.name, "-", "/")}"
-    vm_name = "${source.name}.qcow2"
     iso_checksum = "sha256:53fa8398deb867b27f93f84bc2af6065f61ae4560be42368345c666e29b8282b"
     iso_url = "https://releases.nixos.org/nixos/22.11/nixos-22.11.968.9d692a724e7/nixos-minimal-22.11.968.9d692a724e7-x86_64-linux.iso"
   }

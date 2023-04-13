@@ -1,11 +1,13 @@
 source "qemu" "guix" {
-  accelerator = "kvm"
+  accelerator = var.accelerator
   boot_command = [
     "<leftCtrlOn><leftAltOn><f4><leftAltOff><leftCtrlOff><enter>",
     "passwd<enter>vagrant<enter>vagrant<enter>",
     "herd start ssh-daemon<enter>",
   ]
   boot_wait = "60s"
+  cdrom_interface = "virtio"
+  cpu_model = var.cpu_model
   cpus = var.cpus
   disk_compression = true
   disk_interface = "virtio-scsi"
@@ -13,18 +15,17 @@ source "qemu" "guix" {
   firmware = var.firmware
   format = "qcow2"
   headless = var.headless
-  http_directory = "packer/assets/guix"
-  memory = 2048
-  qemuargs = [
-    ["-accel", var.qemu_accel],
-    ["-cpu", var.qemu_cpu],
-    ["-machine", var.qemu_machine],
-  ]
+  http_directory = "packer/assets/${split("-", "${source.name}")[0]}"
+  machine_type = var.machine_type
+  memory = var.memory
+  net_device = "virtio-net-pci"
+  output_directory = "build/${replace(source.name, "-", "/")}/"
   shutdown_command = "shutdown"
   ssh_agent_auth = false
   ssh_password = "vagrant"
-  ssh_username = "root"
   ssh_timeout = "30m"
+  ssh_username = "root"
+  vm_name = "${source.name}.qcow2"
 }
 
 build {
@@ -32,16 +33,12 @@ build {
 
   source "source.qemu.guix" {
     name = "guix-1.3.0-x86_64"
-    output_directory = "build/${replace(source.name, "-", "/")}"
-    vm_name = "${source.name}.qcow2"
     iso_checksum = "sha256:f2b30458fa1736eeee3b82f34aab1d72f3964bef0477329bb75281d2b7bb6d4b"
     iso_url = "https://ftpmirror.gnu.org/gnu/guix/guix-system-install-1.3.0.x86_64-linux.iso"
   }
 
   source "source.qemu.guix" {
     name = "guix-1.4.0-x86_64"
-    output_directory = "build/${replace(source.name, "-", "/")}"
-    vm_name = "${source.name}.qcow2"
     iso_checksum = "sha256:087a97dba2319477185471a28812949cc165e60e58863403e4a606c1baa05f81"
     iso_url = "https://ftpmirror.gnu.org/gnu/guix/guix-system-install-1.4.0.x86_64-linux.iso"
   }
