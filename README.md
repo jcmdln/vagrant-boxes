@@ -20,11 +20,11 @@ vagrant plugin install vagrant-hostmanager vagrant-libvirt
 # Build all boxes
 packer build packer/
 
-# Build all NixOS boxes
-packer build -only=nixos.* packer/
+# Build all Fedora boxes
+packer build -only=fedora.* packer/
 
-# Build a specific NixOS box
-packer build -only=nixos.qemu.nixos-22.11-x86_64 packer/
+# Build a specific Fedora box
+packer build -only=fedora.qemu.fedora-38-x86_64 packer/
 ```
 
 You can get a full list of sources to build using `packer inspect packer/`.
@@ -35,7 +35,7 @@ Add boxes by `manifest.json`:
 
 ```sh
 # Add a single box by manifest
-vagrant box add build/nixos/22.11/x86_64/manifest.json
+vagrant box add build/fedora/38/x86_64/manifest.json
 
 # Add all boxes by manifest
 find build/ -type f -name 'manifest.json' -exec vagrant box add {} \;
@@ -48,7 +48,7 @@ Start boxes:
 vagrant up
 
 # Start a specific box
-vagrant up nixos
+vagrant up fedora
 ```
 
 ## Publish
@@ -60,8 +60,10 @@ the Packer build for _mostly_ automated publishing.
 Ensure that `vagrant cloud auth whoami` shows you are logged in.
 
 ```sh
-TARGET="openbsd-7.3-amd64" sh ./tools/vagrant-publish.sh
+./tools/vagrant-publish.sh build/fedora/38/x86_64/manifest.json
 ```
+
+Log in and manually release the box.
 
 # Notes
 

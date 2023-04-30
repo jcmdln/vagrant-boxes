@@ -1,32 +1,30 @@
 #!/bin/sh
-set -ex
 
-[ -n "$(command -v awk)" ]     || exit 1
-[ -n "$(command -v cat)" ]     || exit 1
+set -ex -o pipefail
+
+[ -n "$(command -v awk)" ]      || exit 1
 [ -n "$(command -v jq)" ]      || exit 1
 [ -n "$(command -v vagrant)" ] || exit 1
 
-[ -n $TARGET ] || exit 1
+MANIFEST="$1"
+if [ -z "$MANIFEST" ]; then
+    echo "error: no manifest provided"
+    exit 1
+fi
 
-BOX_NAME="$(echo $TARGET | awk -F'-' '{print $1}')"
-BOX_VERSION="$(echo $TARGET | awk -F'-' '{print $2}')"
-BOX_ARCH="$(echo $TARGET | awk -F'-' '{print $3}')"
+if [ -n "$2" ]; then
+    echo "error: too many operands"
+    exit 1
+fi
 
-[ -n $BOX_ARCH ]    || exit 1
-[ -n $BOX_NAME ]    || exit 1
-[ -n $BOX_VERSION ] || exit 1
-
-BOX_FILENAME="$BOX_NAME-$BOX_VERSION-$BOX_ARCH.box"
-BOX_PATH="build/$BOX_NAME/$BOX_VERSION/$BOX_ARCH"
-
-[ -f "$BOX_PATH/$BOX_FILENAME" ] || exit 1
-
-BOX_PATH="build/$BOX_NAME/$BOX_VERSION/$BOX_ARCH"
-BOX_SHA256SUM="$(jq -r .versions[0].providers[0].checksum $BOX_PATH/manifest.json)"
-VAGRANT_USER="${VAGRANT_USER:-`vagrant cloud auth whoami --machine-readable | awk '{ print $NF }'`}"
+BOX_CHECKSUM=$(jq -r '.versions[0].providers[0].checksum' $MANIFEST)
+BOX_CHECKSUM_TYPE=$(jq -r '.versions[0].providers[0]."checksum-type"' $MANIFEST)
+BOX_NAME=$(jq -r '.name' $MANIFEST)
+BOX_URL=$(jq -r '.versions[0].providers[0].url' $MANIFEST)
+BOX_VERSION=$(jq -r '.versions[0].version' $MANIFEST)
+VAGRANT_USER="${VAGRANT_USER:-`vagrant cloud auth whoami --machine-readable | awk '{print $NF}'`}"
 
 vagrant cloud publish --no-private \
-    --checksum=$BOX_SHA256SUM \
-    --checksum-type=sha256 \
-    $VAGRANT_USER/$BOX_NAME $BOX_VERSION \
-    libvirt $BOX_PATH/$BOX_FILENAME
+    --checksum=$BOX_CHECKSUM \
+    --checksum-type=$BOX_CHECKSUM_TYPE \
+    $BOX_NAME $BOX_VERSION libvirt $BOX_URL
