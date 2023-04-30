@@ -10,7 +10,7 @@ BOX_PATH="build/$BOX_NAME/$BOX_VERSION/$BOX_ARCH"
 [ -f "$BOX_PATH/$BOX_NAME-$BOX_VERSION-$BOX_ARCH.box" ] || exit 1
 
 SHA256SUM="$(sha256sum $BOX_PATH/$BOX_NAME-$BOX_VERSION-$BOX_ARCH.box | awk '{print $1}')"
-VAGRANT_USER="${VAGRANT_USER:-$USER}"
+VAGRANT_USER="${VAGRANT_USER:-`vagrant cloud auth whoami --machine-readable | awk '{print $NF}'`}"
 
 mkdir -p $BOX_PATH
 
