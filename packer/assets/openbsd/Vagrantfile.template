@@ -3,6 +3,10 @@ Vagrant.configure("2") do |config|
   config.ssh.sudo_command = "doas %c"
   config.vm.box = "jcmdln/openbsd"
 
+  config.vm.provider "libvirt" do |v|
+    v.loader = "/usr/share/OVMF/OVMF_CODE.fd"
+  end
+
   # FIXME: These options require software not included in OpenBSD base.
   config.nfs.verify_installed = false
   config.vm.synced_folder '.', '/vagrant', disabled: true

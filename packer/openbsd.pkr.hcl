@@ -1,18 +1,18 @@
 source "qemu" "openbsd" {
-  // accelerator = var.accelerator
+  accelerator = var.accelerator
   boot_command = [
     "a<enter><wait5>",
     "http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.conf<enter><wait15>",
     "i<enter>",
   ]
   boot_wait = "30s"
-  #cdrom_interface = "virtio"
+  cdrom_interface = "virtio"
   cpu_model = var.cpu_model
   cpus = var.cpus
   disk_compression = true
   disk_interface = "virtio-scsi"
   disk_size = "20G"
-  // firmware = var.firmware
+  firmware = var.firmware
   format = "qcow2"
   headless = var.headless
   http_directory = "packer/assets/${split("-", "${source.name}")[0]}"
@@ -32,15 +32,15 @@ build {
   name = "openbsd"
 
   source "source.qemu.openbsd" {
-    name = "openbsd-7.2-amd64"
-    iso_checksum = "file:https://cdn.openbsd.org/pub/OpenBSD/7.2/amd64/SHA256"
-    iso_url = "https://cdn.openbsd.org/pub/OpenBSD/7.2/amd64/install72.iso"
-  }
-
-  source "source.qemu.openbsd" {
     name = "openbsd-7.3-amd64"
     iso_checksum = "file:https://cdn.openbsd.org/pub/OpenBSD/7.3/amd64/SHA256"
     iso_url = "https://cdn.openbsd.org/pub/OpenBSD/7.3/amd64/install73.iso"
+  }
+
+  source "source.qemu.openbsd" {
+    name = "openbsd-7.4-amd64"
+    iso_checksum = "file:https://cdn.openbsd.org/pub/OpenBSD/7.4/amd64/SHA256"
+    iso_url = "https://cdn.openbsd.org/pub/OpenBSD/7.4/amd64/install74.img"
   }
 
   provisioner "shell" {
